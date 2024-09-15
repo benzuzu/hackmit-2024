@@ -6,9 +6,6 @@ import { useEffect, useState } from "react";
 import { Chapter } from "./chapters/chapter";
 import StoriesPage from "./stories/stories";
 import LandingPage from "./landing/LandingPage";
-import LandingPage2 from "./landing/LandingPage2";
-import Vara from 'vara'
-import { VaraText } from "./handwriting";
 
 
 export default function Home() {
@@ -67,7 +64,7 @@ export default function Home() {
           </>
         )} */}
         <div className="flex flex-col gap-4">
-          <LandingPage/>
+          <StoriesPage/>
         </div>
       </main>
       <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center"></footer>
