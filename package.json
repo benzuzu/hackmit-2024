@@ -16,6 +16,7 @@
     "openai": "^4.61.0",
     "react": "^18",
     "react-dom": "^18",
+    "tailwind-scrollbar": "^3.1.0",
     "vara": "^1.4.1"
   },
   "devDependencies": {

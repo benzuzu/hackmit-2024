@@ -3,7 +3,7 @@
 import { useAction } from "convex/react";
 import { api } from "../convex/_generated/api";
 import { useEffect, useState } from "react";
-import { Chapter } from "./chapters/chapter";
+import { Chapter } from "./chapters/Chapter";
 import StoriesPage from "./stories/stories";
 import LandingPage from "./landing/LandingPage";
 import LandingPage2 from "./landing/LandingPage2";

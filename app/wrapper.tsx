@@ -30,7 +30,7 @@ export function Wrapper({ children, onClose }: WrapperProps) {
       </button>
 
       {/* Scrollable content inside */}
-      <div className="h-full overflow-y-auto">
+      <div className="h-full overflow-y-auto scrollbar scrollbar-thumb-gray-900 scrollbar-track-gray-100">
         {children}
       </div>
     </div>

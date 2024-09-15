@@ -12,7 +12,7 @@
 html, body {
   color: var(--foreground); /* Dark text */
   background: var(--background); /* Light background */
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Helvetica, sans-serif;
   margin: 0;
   padding: 0;
   height: 100%;
@@ -35,24 +35,6 @@ html, body {
 :root {
   --background: #ffffff; /* Light background */
   --foreground: #171717; /* Dark text */
-
-  /* --primary-gradient: conic-gradient(
-    from 180deg at 70% 70%, 
-    #b23a3a 0deg,      
-    #a83232 90deg,    
-    #8c1f1f 180deg,   
-    #b84747 270deg,   
-    #b23a3a 360deg     
-  );
-
-  --secondary-gradient: conic-gradient(
-    from 360deg at 70% 70%, 
-    #a82323 0deg,      
-    #8c1f1f 120deg,    
-    #a83232 240deg,    
-    #b23a3a 360deg     
-  );
-   */
   
   --primary-gradient: conic-gradient(
     from 180deg at 70% 70%, 
@@ -131,3 +113,32 @@ body {
     transform: translateX(0px) translateY(0px);
   }
 }
+
+/* In global.css or a specific CSS file */
+.scrollbar-thin {
+  scrollbar-width: thin; /* Firefox */
+}
+
+.scrollbar-rounded {
+  scrollbar-color: #888 #f1f1f1;
+}
+
+.scrollbar-rounded::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scrollbar-rounded::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.scrollbar-rounded::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 10px;
+  border: 2px solid transparent;
+}
+
+.scrollbar-rounded::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+}
+
