@@ -58,7 +58,7 @@ export const generateImages = action({
         const context = args.texts.slice(0, index).join(" ");
 
         const prompt = context
-          ? `Context: ${args.character1} ${args.character2}. Now, draw the following paragraph: ${text}. Draw characters as humanly as possible, very realistic. Do NOT include text or words in the image.`
+          ? `Context: ${args.character1} ${args.character2}. Now, draw the following paragraph. Use the style of Une64e2g1l7URd6C : ${text}.`
           : text;
 
         return openai.images
