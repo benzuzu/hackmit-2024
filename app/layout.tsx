@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { ConvexClientProvider } from "./ConvexClientProvider";
+import Sidebar from "./Sidebar"; // Import the Sidebar
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -29,7 +30,19 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ConvexClientProvider>{children}</ConvexClientProvider>
+        <ConvexClientProvider>
+          <div className="flex h-full">
+            {/* Sticky Sidebar */}
+            <div className="sticky top-0 h-screen">
+              <Sidebar />
+            </div>
+
+            {/* Main Content Area - This part scrolls */}
+            <div className="flex-1 h-screen overflow-y-auto bg-gray-50 dark:bg-gray-900 p-8">
+              {children}
+            </div>
+          </div>
+        </ConvexClientProvider>
       </body>
     </html>
   );
