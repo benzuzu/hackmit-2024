@@ -1,73 +1,91 @@
-"use node";
-
+import { action, internalMutation, query } from "./_generated/server";
+import { internal } from "./_generated/api";
 import { v } from "convex/values";
-import { action } from "./_generated/server";
-import OpenAI from "openai";
+import { Id, Doc } from "./_generated/dataModel";
 
-// Your OpenAI API Key (use environment variables to avoid hardcoding this)
-const apiKey = process.env.OPENAI_API_KEY;
+export const storeGeneratedChapter = action({
+    args: {
+        storyId: v.id("stories"),
+        generatedText: v.array(v.string()),
+        generatedImageUrls: v.array(v.string())
+    },
+    handler: async (ctx, args) => {
+        const { storyId, generatedText, generatedImageUrls } = args;
 
-// Create an OpenAI client
-const openai = new OpenAI({ apiKey });
+        const story: Doc<"stories"> = (await ctx.runMutation(internal.chapter.getStory, {storyId}))!;
+        const newChapterIndex = story.currentChapterIndex + 1n;
+        const images: Id<"_storage">[] = []
+        for (const url of generatedImageUrls) {
+            const response = await fetch(url);
+            const image = await response.blob();
+            const storageId: Id<"_storage"> = await ctx.storage.store(image);
+            images.push(storageId)
+        };
 
-export const generateTexts = action({
-  args: {},
-  handler: async () => {
-    try {
-      // Make a call to OpenAI API using the `createCompletion` method
-      const response = await openai.chat.completions.create({
-        model: "gpt-4o", // Specify the model here
-        messages: [
-          {
-            role: "system",
-            content:
-              "Write a story in 3 parts. Each part should be a string in the JSON with key 'part_x'.",
-          },
-        ],
-        response_format: {
-          type: "json_object",
-        },
-      });
+        const chapterId: Id<"chapters"> = (await ctx.runMutation(internal.chapter.storeChapter, {
+            storyId,
+            index: newChapterIndex,
+            texts: generatedText,
+            images
+        }))!;
 
-      if (response.choices[0].message.refusal) {
-        console.log(response.choices[0].message[0].refusal);
-      } else if (response.choices[0].message.content) {
-        const responseString = response.choices[0].message.content;
-        const jsonResponse = JSON.parse(responseString);
-        return Object.values(jsonResponse);
-      }
-    } catch (error) {
-      console.error("Error calling OpenAI API:", error);
-      throw new Error("Failed to call OpenAI API");
-    }
-  },
+        await ctx.runMutation(internal.chapter.updateStoryWithChapter, {storyId, chapterId, newChapterIndex, storyChapters: story.chapters})
+
+        return chapterId;
+    },
 });
 
-export const generateImages = action({
-  args: { texts: v.array(v.string()) },
-  handler: async (_, args) => {
-    const images: string[] = []; // Add type annotation for the images array
-    try {
-      for (const text of args.texts) {
-        const response = await openai.images.generate({
-          model: "dall-e-3",
-          prompt: text,
-          n: 1,
-          size: "1024x1024",
-        });
+export const getStory = internalMutation({
+    args: {
+      storyId: v.id("stories"),
+    },
+    handler: async (ctx, args) => {
+      const { storyId } = args;
+      const story = await ctx.db.get(storyId);
+      return story
+    },
+  });
 
-        if (response.data[0].url) {
-          images.push(response.data[0].url);
-          console.log(response.data[0].url);
+export const storeChapter = internalMutation({
+    args: {
+        storyId: v.id("stories"),
+        index: v.int64(),
+        texts: v.array(v.string()),
+        images: v.array(v.id("_storage"))
+    },
+    handler: async (ctx, args) => {
+        const chapterId = await ctx.db.insert("chapters", { 
+            ...args
+        });
+        return chapterId
+    },
+});
+
+export const updateStoryWithChapter = internalMutation({
+    args: {
+        storyId: v.id("stories"),
+        chapterId: v.id("chapters"),
+        newChapterIndex: v.int64(),
+        storyChapters: v.array(v.id("chapters"))
+    },
+    handler: async (ctx, args) => {
+        const { storyId, chapterId, newChapterIndex, storyChapters } = args;
+        const updatedChapters = [...storyChapters];
+        if (updatedChapters.length >= newChapterIndex) {
+            updatedChapters[newChapterIndex as unknown as number] = chapterId
         } else {
-          console.log("Failed to generate image for text:", text);
-          throw new Error("Failed to generate image");
+            updatedChapters.push(chapterId);
         }
-      }
-      return images;
-    } catch (error) {
-      console.error("Error calling OpenAI API:", error);
-      throw new Error("Failed to call OpenAI API");
+        
+        await ctx.db.patch(storyId, { currentChapterIndex: newChapterIndex, chapters: updatedChapters})
     }
+})
+
+export const imageTest = query({
+  args: {},
+  handler: async (ctx) => {
+    const chapter = await ctx.db.query("chapters").take(1);
+    const url = await ctx.storage.getUrl(chapter[0].images[0])
+    return url
   },
 });
