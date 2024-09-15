@@ -44,7 +44,7 @@ export default function Story() {
       }
     };
 
-    fetchChapter();
+    // fetchChapter();
   }, [firstStory, generateAndStoreChapter, getImages]);
 
   return (
