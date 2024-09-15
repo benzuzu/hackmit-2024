@@ -4,7 +4,7 @@
 
 /* Light mode styles applied by default */
 :root {
-  --background: #ffffff; /* Light background */
+  --background: #000000; /* Light background */
   --foreground: #171717; /* Dark text */
 }
 
