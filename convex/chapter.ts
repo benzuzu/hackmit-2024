@@ -17,7 +17,7 @@ export const storeGeneratedChapter = internalAction({
             internal.chapter.getStory,
             { storyId }
         ))!;
-        const newChapterIndex = story.currentChapterIndex + 1n;
+        const newChapterIndex = story.currentChapterIndex + BigInt(1);
         const images: Id<"_storage">[] = [];
         for (const url of generatedImageUrls) {
             const response = await fetch(url);
@@ -103,7 +103,7 @@ export const getImages = action({
     handler: async (ctx, { images }) => {
         const imageUrls = []
         for (const image of images) {
-            let url = (await ctx.storage.getUrl(image))!
+            const url = (await ctx.storage.getUrl(image))!
             imageUrls.push(url)
         }
         return imageUrls;
