@@ -39,7 +39,7 @@ export default function RootLayout({
             </div>
 
             {/* Main Content Area - This part scrolls */}
-            <div className="flex-1 h-screen overflow-y-auto bg-gray-50 dark:bg-gray-900 p-8">
+            <div className="flex-1 h-screen overflow-y-auto bg-gray-50 p-8">
               {children}
             </div>
           </div>

@@ -2,21 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Light mode styles applied by default */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #ffffff; /* Light background */
+  --foreground: #171717; /* Dark text */
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+/* HTML and body styles for light mode */
 html, body {
-  color: var(--foreground);
-  background: var(--background);
+  color: var(--foreground); /* Dark text */
+  background: var(--background); /* Light background */
   font-family: Arial, Helvetica, sans-serif;
   margin: 0;
   padding: 0;
@@ -26,7 +21,6 @@ html, body {
 #__next {
   height: 100%;
 }
-
 
 @layer utilities {
   .text-balance {
