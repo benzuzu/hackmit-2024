@@ -4,6 +4,7 @@ import { useAction } from "convex/react";
 import { api } from "../convex/_generated/api";
 import { useEffect, useState } from "react";
 import { Chapter } from "./chapters/chapter";
+import TrendingPage from "./home/home";
 
 export default function Home() {
   const [loading, setLoading] = useState(true);
@@ -52,19 +53,6 @@ export default function Home() {
         ) : (
           <>
             <div className="flex flex-col gap-4">
-              {/* {texts.map((text, index) => (
-                <div key={index} className="flex flex-col items-start">
-                  <p>{text}</p>
-                  {images[index] && (
-                    <img
-                      src={images[index]}
-                      alt={`Generated image ${index}`}
-                      className="w-full h-auto mt-4"
-                    />
-                  )}
-                </div>
-              ))} */}
-              {/* {console.log(texts)} */}
               <Chapter
                 chapterNumber={1}
                 imageUrls={images}
