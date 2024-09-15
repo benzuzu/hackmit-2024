@@ -26,6 +26,7 @@ export default function Story() {
       try {
         // const words = localStorage.getItem("words");
         if (true) {
+          console.log(firstStory[0]._id)
           const chapter: TChapter = (await generateAndStoreChapter({
             storyId: firstStory[0]._id,
             words: "a",

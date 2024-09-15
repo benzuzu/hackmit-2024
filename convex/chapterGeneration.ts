@@ -22,10 +22,13 @@ export const generateAndStoreChapter = action({
     const character2 =
       "Emily is a 16-year-old high school student with shoulder-length straight blonde hair, styled neatly with a simple headband. She has bright blue eyes that sparkle with enthusiasm and a warm, friendly smile. She stands at 5'5\", with a petite build and a relaxed, confident posture. She's wearing a light pink sweater, a denim skirt, and white sneakers. A floral-patterned backpack is slung over both shoulders, and she's holding a notebook covered in doodles. Her face is lightly freckled, and she's wearing small silver hoop earrings.";
 
+      console.log("starting generation")
     const texts: string[] = (await ctx.runAction(
       internal.chapterGeneration.generateTexts,
       { character1, character2, words }
     ))!;
+    console.log("text generation:")
+    console.log(texts)
     const images: string[] = await ctx.runAction(
       internal.chapterGeneration.generateImages,
       { character1, character2, texts }
