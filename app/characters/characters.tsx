@@ -44,7 +44,12 @@ export default function CharacterMenu() {
   return (
     <Wrapper onClose={handleClose}>
     <div className="p-4">
-      <h1 className="text-3xl font-bold text-center mb-6">Characters</h1>
+      <div className="flex justify-between items-center">
+        <h1 className="text-3xl font-bold text-center mb-6">Characters</h1>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="h-8 w-8 mb-2">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+        </svg>
+        </div>
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
         {characters.map((character) => (
           <div key={character.id} className="max-w-sm rounded overflow-hidden shadow-lg">
