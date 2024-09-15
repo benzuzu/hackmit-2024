@@ -20,35 +20,34 @@ export default function Story() {
     api.chapterGeneration.generateAndStoreChapter
   );
   const getImages = useAction(api.chapter.getImages);
-  const firstStory = useQuery(api.story.getFirstStory);
-
-  // Create the function that can be called manually or during the initial render
-  const generateNewChapter = async () => {
-    setLoading(true);
-    try {
-      const words = sessionStorage.getItem("words");
-      if (words) {
-        // Generate and fetch the chapter
-        const chapter: TChapter = (await generateAndStoreChapter({
-          storyId: "j97752neevjp28tme8a1zs5z2570twc5" as Id<"stories">,
-          words,
-        }))!;
-        setTexts(chapter.texts);
-        const imageUrls = await getImages({ images: chapter.images });
-        setImages(imageUrls);
-        setChapterIndex(Number(chapter.index));
-      } else {
-        throw new Error("Words not found in local storage");
-      }
-    } catch (error) {
-      console.error("Error generating chapter:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   // Call the chapter generation function on initial render
   useEffect(() => {
+    // Create the function that can be called manually or during the initial render
+    const generateNewChapter = async () => {
+      setLoading(true);
+      try {
+        const words = sessionStorage.getItem("words");
+        if (words) {
+          // Generate and fetch the chapter
+          const chapter: TChapter = (await generateAndStoreChapter({
+            storyId: "j97752neevjp28tme8a1zs5z2570twc5" as Id<"stories">,
+            words,
+          }))!;
+          setTexts(chapter.texts);
+          const imageUrls = await getImages({ images: chapter.images });
+          setImages(imageUrls);
+          setChapterIndex(Number(chapter.index));
+        } else {
+          throw new Error("Words not found in local storage");
+        }
+      } catch (error) {
+        console.error("Error generating chapter:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     generateNewChapter();
   }, []); // Empty dependency array ensures it runs once on mount
 
@@ -63,7 +62,6 @@ export default function Story() {
               chapterNumber={chapterIndex}
               imageUrls={images}
               text={texts}
-              generateNewChapter={generateNewChapter}
             />
           </div>
         )}
