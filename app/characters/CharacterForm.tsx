@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Wrapper } from '../wrapper'
+import { Wrapper } from '../Wrapper'
 
 export function CharacterForm() {
   const [formData, setFormData] = useState({

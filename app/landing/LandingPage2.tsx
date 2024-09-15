@@ -1,5 +1,5 @@
 import { useState } from "react";
-import StoriesPage from "../stories/stories";
+import StoriesPage from "../stories/page";
 
 export default function LandingPage2() {
     const [isModalOpen, setIsModalOpen] = useState(false);

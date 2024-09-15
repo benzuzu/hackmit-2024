@@ -1,7 +1,34 @@
+"use client"
+
 import React from "react";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import Modal from "./Modal";
 import Link from "next/link";
 
+
 function Sidebar() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const router = useRouter();
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleSelectOption = (option) => {
+    if (option === "story") {
+      router.push("/stories/add"); // Navigate to /stories/add
+    } else if (option === "character") {
+      router.push("/characters/add"); // Navigate to /characters/add
+    }
+    closeModal(); // Close modal after selection
+  };
+
+
   return (
     <div className="sticky top-0 w-20 p-4 flex flex-col h-screen">
       {/* Icons in the middle */}
@@ -19,16 +46,17 @@ function Sidebar() {
         </li>
         
         <li className="flex justify-center">
-          {/* Stories Link */}
-          <Link href="/stories" passHref>
-            <div className="flex flex-col items-center text-black hover:text-blue-500">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
-              </svg>
-              <span className="sr-only">Home</span>
-            </div>
-          </Link>
-        </li>
+            {/* Stories Link */}
+            <Link href="/stories">
+              <div className="flex flex-col items-center text-black hover:text-blue-500">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="h-8 w-8 mb-2">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
+                </svg>
+                <span className="sr-only">Stories</span>
+              </div>
+            </Link>
+          </li>
+
 
         <li className="flex justify-center">
           {/* Characters Link */}
@@ -54,6 +82,8 @@ function Sidebar() {
           </Link>
         </li>
       </ul>
+      <Modal isOpen={isModalOpen} onClose={closeModal} onSelectOption={handleSelectOption} />
+
     </div>
   );
 }

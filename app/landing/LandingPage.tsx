@@ -1,10 +1,6 @@
 import { useState, useEffect } from 'react';
 import { VaraText } from "../handwriting";
-import { Wrapper } from "../wrapper";
-
-const handleClose = () => {
-  console.log("Close button clicked");
-};
+import WrapperPlain from "../WrapperPlain";
 
 export default function LandingPage() {
   // State to control the visibility of the button
@@ -21,7 +17,7 @@ export default function LandingPage() {
   }, []);
 
   return (
-    <Wrapper onClose={handleClose}>
+    <WrapperPlain>
       <div className="flex flex-col items-center justify-center h-screen">
         <div className="flex items-center space-x-4">
           <span className="text-7xl font-bold" style={{ fontFamily: 'Inter, sans-serif' }}>We</span>
@@ -38,6 +34,6 @@ export default function LandingPage() {
           </svg>
         </button>
       </div>
-    </Wrapper>
+    </WrapperPlain>
   );
 }

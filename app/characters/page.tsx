@@ -1,5 +1,9 @@
+"use client"
+
 import React from 'react';
-import { Wrapper } from '../wrapper';
+import  Wrapper from '../Wrapper';
+import { useRouter } from "next/navigation";
+
 
 // Mock data for characters
 const characters = [
@@ -35,12 +39,15 @@ const characters = [
   },
 ];
 
-const handleClose = () => {
-    console.log("Close button clicked");
-  };
-  
 
 export default function CharacterMenu() {
+  const router = useRouter();
+
+  const handleClose = () => {
+    console.log("Close button clicked");
+    router.push("/"); // Navigate to the home page
+  };
+
   return (
     <Wrapper onClose={handleClose}>
     <div className="p-4">

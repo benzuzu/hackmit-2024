@@ -5,7 +5,7 @@ interface WrapperProps {
   onClose?: () => void;
 }
 
-export function Wrapper({ children, onClose }: WrapperProps) {
+export default function Wrapper({ children, onClose }: WrapperProps) {
   return (
     <div className="border-2 border-black fixed inset-0 rounded-lg sm:ml-20 mr-3 ml-3  mt-2 mb-2 p-8 overflow-hidden z-20">
       {/* Close button */}
