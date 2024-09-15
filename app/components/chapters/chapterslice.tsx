@@ -1,5 +1,6 @@
+"use client";
+
 import { useState } from "react";
-import Image from "next/image";
 import { ChapterEnd } from "./chapterend";
 import React from "react";
 
@@ -21,7 +22,11 @@ export function ChapterSlice({
     <div className="container mx-auto px-4 py-8">
       {endChapter ? (
         <>
-          <ChapterEnd></ChapterEnd>
+          <ChapterEnd
+            handleSubmit={function (words: string[]): void {
+              throw new Error("Function not implemented.");
+            }}
+          ></ChapterEnd>
         </>
       ) : (
         <>

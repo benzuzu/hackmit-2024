@@ -1,5 +1,6 @@
-import React from "react";
-import { useState } from "react";
+"use client";
+
+import React, { useState } from "react";
 
 type ChapterEndProps = {
   handleSubmit: (words: string[]) => void;

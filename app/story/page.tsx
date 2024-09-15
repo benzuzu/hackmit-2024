@@ -4,20 +4,19 @@ import { useAction } from "convex/react";
 import React, { useEffect, useState } from "react";
 import { api } from "../../convex/_generated/api";
 import { Chapter } from "../components/chapters/chapter";
+import type { TChapter } from "@/convex/types";
+import { Id } from "@/convex/_generated/dataModel";
 
 export default function Story() {
   const [loading, setLoading] = useState(true);
   const [texts, setTexts] = useState<string[]>([]); // Initialize texts as an array
   const [images, setImages] = useState<string[]>([]); // Initialize images as an array of URLs
+  const [chapterIndex, setChapterIndex] = useState<number>(0);
 
-  const generateTexts = useAction(api.chapterGeneration.generateTexts);
-  const generateImages = useAction(api.chapterGeneration.generateImages);
-
-  const character1 =
-    "Jordan is a 17-year-old high school student with short, slightly messy brown hair and warm hazel eyes that convey a sense of curiosity and youthful energy. He stands at 5'9\", with a lean build and a casual, laid-back posture. He's wearing a navy blue hoodie over a graphic t-shirt, faded jeans, and well-worn sneakers. A backpack hangs over one shoulder, and white earbuds dangle loosely around his neck. His expression is thoughtful, with a slight, confident smile. He has a few freckles scattered across his face and a pair of black-rimmed glasses resting on his nose.";
-
-  const character2 =
-    "Emily is a 16-year-old high school student with shoulder-length straight blonde hair, styled neatly with a simple headband. She has bright blue eyes that sparkle with enthusiasm and a warm, friendly smile. She stands at 5'5\", with a petite build and a relaxed, confident posture. She's wearing a light pink sweater, a denim skirt, and white sneakers. A floral-patterned backpack is slung over both shoulders, and she's holding a notebook covered in doodles. Her face is lightly freckled, and she's wearing small silver hoop earrings.";
+  const generateAndStoreChapter = useAction(
+    api.chapterGeneration.generateAndStoreChapter
+  );
+  const getImages = useAction(api.chapter.getImages);
 
   useEffect(() => {
     const fetchChapter = async () => {
@@ -25,18 +24,16 @@ export default function Story() {
       try {
         const words = localStorage.getItem("words");
         if (words) {
-          const texts: string[] = await generateTexts({
-            character1,
-            character2,
+          const chapter: TChapter = (await generateAndStoreChapter({
+            storyId: "j97752neevjp28tme8a1zs5z2570twc5" as Id<"stories">,
             words,
-          });
-          const images: string[] = await generateImages({
-            character1,
-            character2,
-            texts,
-          });
-          setTexts(texts);
-          setImages(images);
+          }))!;
+          setTexts(chapter.texts);
+          const imageUrls = await getImages({ images: chapter.images });
+          setImages(imageUrls);
+          setChapterIndex(Number(chapter.index));
+        } else {
+          throw new Error("Words not found in local storage");
         }
       } catch (error) {
         console.error("Error generating chapter:", error);
@@ -46,7 +43,7 @@ export default function Story() {
     };
 
     fetchChapter();
-  }, [generateTexts, generateImages]);
+  }, [generateAndStoreChapter, getImages]);
 
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
@@ -55,7 +52,11 @@ export default function Story() {
           <p>Loading...</p>
         ) : (
           <div className="flex flex-col gap-4">
-            <Chapter chapterNumber={1} imageUrls={images} text={texts} />
+            <Chapter
+              chapterNumber={chapterIndex}
+              imageUrls={images}
+              text={texts}
+            />
           </div>
         )}
       </main>

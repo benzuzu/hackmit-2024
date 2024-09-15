@@ -1,8 +1,11 @@
 "use node";
 
 import { v } from "convex/values";
-import { action } from "./_generated/server";
+import { action, internalAction } from "./_generated/server";
+
 import OpenAI from "openai";
+import { internal } from "./_generated/api";
+import { TChapter } from "./types";
 
 // Your OpenAI API Key (use environment variables to avoid hardcoding this)
 const apiKey = process.env.OPENAI_API_KEY;
@@ -10,9 +13,36 @@ const apiKey = process.env.OPENAI_API_KEY;
 // Create an OpenAI client
 const openai = new OpenAI({ apiKey });
 
-export const generateTexts = action({
+export const generateAndStoreChapter = action({
+  args: { storyId: v.id("stories"), words: v.string() },
+  handler: async (ctx, { storyId, words }) => {
+    const character1 =
+      "Jordan is a 17-year-old high school student with short, slightly messy brown hair and warm hazel eyes that convey a sense of curiosity and youthful energy. He stands at 5'9\", with a lean build and a casual, laid-back posture. He's wearing a navy blue hoodie over a graphic t-shirt, faded jeans, and well-worn sneakers. A backpack hangs over one shoulder, and white earbuds dangle loosely around his neck. His expression is thoughtful, with a slight, confident smile. He has a few freckles scattered across his face and a pair of black-rimmed glasses resting on his nose.";
+
+    const character2 =
+      "Emily is a 16-year-old high school student with shoulder-length straight blonde hair, styled neatly with a simple headband. She has bright blue eyes that sparkle with enthusiasm and a warm, friendly smile. She stands at 5'5\", with a petite build and a relaxed, confident posture. She's wearing a light pink sweater, a denim skirt, and white sneakers. A floral-patterned backpack is slung over both shoulders, and she's holding a notebook covered in doodles. Her face is lightly freckled, and she's wearing small silver hoop earrings.";
+
+    const texts: string[] = (await ctx.runAction(
+      internal.chapterGeneration.generateTexts,
+      { character1, character2, words }
+    ))!;
+    const images: string[] = await ctx.runAction(
+      internal.chapterGeneration.generateImages,
+      { character1, character2, texts }
+    );
+
+    const chapter: TChapter = await ctx.runAction(
+      internal.chapter.storeGeneratedChapter,
+      { storyId, generatedText: texts, generatedImageUrls: images }
+    );
+
+    return chapter;
+  },
+});
+
+export const generateTexts = internalAction({
   args: { character1: v.string(), character2: v.string(), words: v.string() },
-  handler: async (_, args) => {
+  handler: async (ctx, args) => {
     try {
       // Make a call to OpenAI API using the `createCompletion` method
       const response = await openai.chat.completions.create({
@@ -38,7 +68,7 @@ export const generateTexts = action({
         console.log(response.choices[0].message.refusal);
       } else if (response.choices[0].message.content) {
         const responseString = response.choices[0].message.content;
-        const jsonResponse = JSON.parse(responseString);
+        const jsonResponse: string[] = JSON.parse(responseString);
         return Object.values(jsonResponse);
       }
     } catch (error) {
@@ -48,7 +78,7 @@ export const generateTexts = action({
   },
 });
 
-export const generateImages = action({
+export const generateImages = internalAction({
   args: {
     character1: v.string(),
     character2: v.string(),
