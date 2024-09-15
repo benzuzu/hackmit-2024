@@ -62,7 +62,6 @@ export default function NewStory() {
   
 
   const handleSubmit = async (words: string[]) => {
-    console.log("Words submitted:", words);
     setWords(words);
     await generateNewStory();
     router.push("/story");

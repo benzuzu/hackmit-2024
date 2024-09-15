@@ -19,6 +19,7 @@ import type * as chapter from "../chapter.js";
 import type * as chapterGeneration from "../chapterGeneration.js";
 import type * as story from "../story.js";
 import type * as types from "../types.js";
+import type * as utils from "../utils.js";
 
 /**
  * A utility for referencing Convex functions in your app's API.
@@ -33,6 +34,7 @@ declare const fullApi: ApiFromModules<{
   chapterGeneration: typeof chapterGeneration;
   story: typeof story;
   types: typeof types;
+  utils: typeof utils;
 }>;
 export declare const api: FilterApi<
   typeof fullApi,

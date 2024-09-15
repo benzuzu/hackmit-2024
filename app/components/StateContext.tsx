@@ -24,7 +24,6 @@ export const StateProvider = ({ children }: { children: ReactNode }) => {
     // Load from localStorage if available, otherwise use initialState
     if (typeof window !== 'undefined') {
       const storedState = localStorage.getItem('sharedState');
-      console.log(storedState)
       return storedState ? JSON.parse(storedState) : initialState;
     }
     return initialState;

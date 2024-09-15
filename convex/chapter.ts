@@ -3,12 +3,19 @@ import { internal } from "./_generated/api";
 import { v } from "convex/values";
 import { Id, Doc } from "./_generated/dataModel";
 import { TChapter, TLoadedChapter } from "./types";
+import { sleep } from "./utils";
 
 export const loadChapterData = action({
     args: {chapterIndex: v.int64(), storyId: v.id("stories")},
     handler: async (ctx, { chapterIndex, storyId }) => {
         const story: Doc<"stories"> = (await ctx.runQuery(internal.chapter.getStoryById, { storyId }))!;
-        const chapterId = story.chapters[Number(chapterIndex) - 1];
+        let chapterId = story.chapters[Number(chapterIndex) - 1];
+        while (chapterId == null || chapterId == undefined) {
+            sleep(3000);
+            const story: Doc<"stories"> = (await ctx.runQuery(internal.chapter.getStoryById, { storyId }))!;
+            chapterId = story.chapters[Number(chapterIndex) - 1];
+        }
+
         const chapter: Doc<"chapters"> = (await ctx.runQuery(internal.chapter.getChapterById, { chapterId }))!;
         
         const loadedImages = await ctx.runMutation(internal.chapter.loadImages, { images: chapter.images });
