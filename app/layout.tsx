@@ -6,16 +6,7 @@ import { ConvexClientProvider } from "./components/ConvexClientProvider";
 import { StateProvider } from "./components/StateContext";
 
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
-});
+
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -28,21 +19,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+
+    <html lang="en" className="h-full">
+      <body>
         <ConvexClientProvider>
           <StateProvider>
-            <div className="flex h-full">
-              {/* Sticky Sidebar */}
-              <div className="sticky top-0 h-screen">
-                <Sidebar />
-              </div>
-
-              {/* Main Content Area - This part scrolls */}
-              <div className="flex-1 h-screen overflow-y-auto bg-gray-50 dark:bg-gray-900 p-8">
-                {children}
+            <div className="flex h-full fixed main">
+              <div className="mainDiv">
+                {/* Sticky Sidebar */}
+                <div className="hidden sm:block sticky h-screen z-20">
+                  <Sidebar />
+                </div>
+                {/* Scrollable Main Content Area */}
+                <div className="flex-1 overflow-y-auto h-screen z-10">
+                  {children}
+                </div>
               </div>
             </div>
           </StateProvider>

@@ -1,10 +1,12 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import LandingPage from "./landing/page";
 
 export default function Home() {
-  const router = useRouter();
-
-  return <button onClick={() => router.push("/home")}>Begin</button>;
+  return (
+    <div>
+        <LandingPage />
+    </div>
+  )
 }
 

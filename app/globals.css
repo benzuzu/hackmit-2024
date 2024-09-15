@@ -2,22 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Light mode styles applied by default */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #000000; /* Light background */
+  --foreground: #171717; /* Dark text */
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+/* HTML and body styles for light mode */
 html, body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  color: var(--foreground); /* Dark text */
+  background: var(--background); /* Light background */
+  font-family: Helvetica, sans-serif;
   margin: 0;
   padding: 0;
   height: 100%;
@@ -27,9 +22,123 @@ html, body {
   height: 100%;
 }
 
-
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
 }
+
+/* /styles/globals.css */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+
+:root {
+  --background: #ffffff; /* Light background */
+  --foreground: #171717; /* Dark text */
+  
+  --primary-gradient: conic-gradient(
+    from 180deg at 70% 70%, 
+    #ff8b7e 0deg, 
+    #e24e6b 90deg, 
+    #7ed2da 180deg, 
+    #8bdce0 270deg, 
+    #ff8b7e 360deg
+  );
+
+  --secondary-gradient: conic-gradient(
+    from 360deg at 70% 70%, 
+    #eb7494 0deg, 
+    #ae77b2 120deg, 
+    #97b5da 240deg, 
+    #0099ca 360deg
+  );
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+}
+
+.mainDiv{
+  display: flex;
+}
+
+.main::before,
+.main::after {
+  content: '';
+  position: absolute;
+  width: 70vw;
+  height: 70vw;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0.8;
+}
+
+.main::before {
+  background: var(--primary-gradient);
+  animation: moveGradient 10s ease-in-out infinite;
+}
+
+.main::after {
+  background: var(--secondary-gradient);
+  animation: moveGradient2 12s ease-in-out infinite;
+}
+
+@keyframes moveGradient {
+  0% {
+    transform: translateX(0px) translateY(0px);
+  }
+  50% {
+    transform: translateX(200px) translateY(150px) scale(1.5);
+  }
+  100% {
+    transform: translateX(0px) translateY(0px);
+  }
+}
+
+@keyframes moveGradient2 {
+  0% {
+    transform: translateX(0px) translateY(0px);
+  }
+  50% {
+    transform: translateX(-250px) translateY(150px) scale(2.0);
+  }
+  100% {
+    transform: translateX(0px) translateY(0px);
+  }
+}
+
+/* In global.css or a specific CSS file */
+.scrollbar-thin {
+  scrollbar-width: thin; /* Firefox */
+}
+
+.scrollbar-rounded {
+  scrollbar-color: #888 #f1f1f1;
+}
+
+.scrollbar-rounded::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scrollbar-rounded::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.scrollbar-rounded::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 10px;
+  border: 2px solid transparent;
+}
+
+.scrollbar-rounded::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+}
+
