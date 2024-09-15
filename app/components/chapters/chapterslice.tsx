@@ -29,15 +29,14 @@ export function ChapterSlice({
     api.chapterGeneration.generateAndStoreChapter
   );
 
-  const generateNewChapter = async () => {
+  const generateNewChapter = async (words: string[]) => {
     try {
-      const words = sessionStorage.getItem("words");
       if (words) {
         // Generate and fetch the chapter
-        const chapter: TChapter = (await generateAndStoreChapter({
+        const chapter: TChapter = await generateAndStoreChapter({
           storyId: "j97752neevjp28tme8a1zs5z2570twc5" as Id<"stories">,
-          words,
-        }))!;
+          words: JSON.stringify(words),
+        });
       } else {
         throw new Error("Words not found in local storage");
       }
@@ -47,9 +46,8 @@ export function ChapterSlice({
   };
 
   const handleSubmit = async (words: string[]) => {
-    await sessionStorage.setItem("words", JSON.stringify(words));
-    generateNewChapter();
-    console.log("ChapterSlice handleSubmit");
+    console.log("Words submitted:", words);
+    generateNewChapter(words);
     setCurrentSlice(0);
     router.push("/");
   };
