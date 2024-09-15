@@ -8,6 +8,7 @@ import { generateAndStoreChapter } from "@/convex/chapterGeneration";
 import { useAction, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
+import Wrapper from "../components/wrapper";
 
 export default function NewStory() {
   const router = useRouter();
@@ -67,5 +68,16 @@ export default function NewStory() {
     router.push("/story");
   };
 
-  return <ChapterEnd handleSubmit={handleSubmit} />;
+  const handleClose = () => {
+    router.push("/");
+  };
+
+  return (
+    <Wrapper onClose={handleClose}>
+      <div className="p-10">
+      <ChapterEnd  handleSubmit={handleSubmit} />
+      </div>
+        
+    </Wrapper>
+    )
 }

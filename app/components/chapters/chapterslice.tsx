@@ -10,6 +10,7 @@ import { useAction } from "convex/react";
 import { api } from "../../../convex/_generated/api";
 import { Id } from "../../../convex/_generated/dataModel";
 import { SharedState, useStateContext } from "../StateContext";
+import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/solid";
 
 interface ChapterSliceProps {
   chapterNumber: number;
@@ -65,14 +66,14 @@ export function ChapterSlice({
       ) : (
         <>
           {/* Chapter Title */}
-          <h2 className="text-3xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
+          <h2 className="text-3xl font-semibold mb-4 text-gray-800">
             Chapter {chapterNumber}
           </h2>
 
           {/* Container for text and button */}
-          <div className="flex justify-between items-start items-center">
+          <div className="flex justify-between items-center">
             {/* Chapter Text */}
-            <div className="text-lg text-gray-800 dark:text-gray-200 w-3/4">
+            <div className="text-lg text-gray-800  w-3/4">
               {<p>{text[currentSlice]}</p>}
               {/* {text[currentSlice].split("\n").map((paragraph, index) => (
                 <p key={index}>{paragraph}</p>
@@ -89,9 +90,23 @@ export function ChapterSlice({
             {/* Button on the right-hand side */}
             <button
               onClick={() => setCurrentSlice((prev) => prev + 1)}
-              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700"
+              className="bg-black text-white px-4 py-2 rounded hover:bg-black"
             >
-              Next Slice
+              {/* <div className="fixed bottom-4 left-20">
+                {currentSlice > 0 && (
+                  <button className="p-5" onClick={() => setCurrentSlice((prev) => prev == 0 ? prev : prev - 1)}>
+                    <ArrowLeftIcon className="h-6 w-6 ml-2" />
+                  </button>
+                )}
+              </div>
+              <div className="fixed bottom-4 right-4">
+                {currentSlice < text.length && (
+                  <button className="p-5" onClick={() => setCurrentSlice((prev) => prev + 1)}>
+                    <ArrowRightIcon className="h-6 w-6 ml-2" />
+                  </button>
+                )}
+              </div> */}
+              Next Page
             </button>
           </div>
         </>
