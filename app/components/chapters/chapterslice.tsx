@@ -3,31 +3,35 @@
 import { useState } from "react";
 import { ChapterEnd } from "./chapterend";
 import React from "react";
+import { useRouter } from "next/navigation";
 
 interface ChapterSliceProps {
   chapterNumber: number;
   text: string[];
   imageUrls: string[]; // URLs for images to embed within the text
+  generateNewChapter: () => void;
 }
 
 export function ChapterSlice({
   chapterNumber,
   text,
   imageUrls,
+  generateNewChapter,
 }: ChapterSliceProps) {
+  const router = useRouter();
   const [currentSlice, setCurrentSlice] = useState(0);
   const endChapter = currentSlice === text.length;
+
+  const handleSubmit = async (words: string[]) => {
+    await sessionStorage.setItem("words", JSON.stringify(words));
+    setCurrentSlice(0);
+    generateNewChapter();
+  };
 
   return (
     <div className="container mx-auto px-4 py-8">
       {endChapter ? (
-        <>
-          <ChapterEnd
-            handleSubmit={function (words: string[]): void {
-              throw new Error("Function not implemented.");
-            }}
-          ></ChapterEnd>
-        </>
+        <ChapterEnd handleSubmit={handleSubmit} />
       ) : (
         <>
           {/* Chapter Title */}

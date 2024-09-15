@@ -6,8 +6,11 @@ import { api } from "../../convex/_generated/api";
 import { Chapter } from "../components/chapters/chapter";
 import type { TChapter } from "@/convex/types";
 import { Id } from "@/convex/_generated/dataModel";
+import { useRouter } from "next/navigation";
 
 export default function Story() {
+  const router = useRouter();
+
   const [loading, setLoading] = useState(true);
   const [texts, setTexts] = useState<string[]>([]); // Initialize texts as an array
   const [images, setImages] = useState<string[]>([]); // Initialize images as an array of URLs
@@ -18,32 +21,35 @@ export default function Story() {
   );
   const getImages = useAction(api.chapter.getImages);
 
-  useEffect(() => {
-    const fetchChapter = async () => {
-      setLoading(true);
-      try {
-        const words = localStorage.getItem("words");
-        if (words) {
-          const chapter: TChapter = (await generateAndStoreChapter({
-            storyId: "j97752neevjp28tme8a1zs5z2570twc5" as Id<"stories">,
-            words,
-          }))!;
-          setTexts(chapter.texts);
-          const imageUrls = await getImages({ images: chapter.images });
-          setImages(imageUrls);
-          setChapterIndex(Number(chapter.index));
-        } else {
-          throw new Error("Words not found in local storage");
-        }
-      } catch (error) {
-        console.error("Error generating chapter:", error);
-      } finally {
-        setLoading(false);
+  // Create the function that can be called manually or during the initial render
+  const generateNewChapter = async () => {
+    setLoading(true);
+    try {
+      const words = sessionStorage.getItem("words");
+      if (words) {
+        // Generate and fetch the chapter
+        const chapter: TChapter = (await generateAndStoreChapter({
+          storyId: "j97752neevjp28tme8a1zs5z2570twc5" as Id<"stories">,
+          words,
+        }))!;
+        setTexts(chapter.texts);
+        const imageUrls = await getImages({ images: chapter.images });
+        setImages(imageUrls);
+        setChapterIndex(Number(chapter.index));
+      } else {
+        throw new Error("Words not found in local storage");
       }
-    };
+    } catch (error) {
+      console.error("Error generating chapter:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    fetchChapter();
-  }, [generateAndStoreChapter, getImages]);
+  // Call the chapter generation function on initial render
+  useEffect(() => {
+    generateNewChapter();
+  }, []); // Empty dependency array ensures it runs once on mount
 
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
@@ -56,6 +62,7 @@ export default function Story() {
               chapterNumber={chapterIndex}
               imageUrls={images}
               text={texts}
+              generateNewChapter={generateNewChapter}
             />
           </div>
         )}

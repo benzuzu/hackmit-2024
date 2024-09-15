@@ -8,7 +8,7 @@ export default function NewStory() {
   const router = useRouter();
 
   const handleSubmit = async (words: string[]) => {
-    await localStorage.setItem("words", JSON.stringify(words));
+    await sessionStorage.setItem("words", JSON.stringify(words));
     router.push("/story");
   };
 

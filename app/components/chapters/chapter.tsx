@@ -5,12 +5,14 @@ interface ChapterProps {
   chapterNumber: number;
   text: string[];
   imageUrls: string[]; // URLs for images to embed within the text
+  generateNewChapter: () => void;
 }
 
 export function Chapter({
   chapterNumber,
   text,
   imageUrls,
+  generateNewChapter,
 }: ChapterProps) {
   return (
     <div className="grid grid-rows-[auto_auto_auto] items-start justify-items-center min-h-screen p-8 pb-20 gap-8 sm:p-20 font-[family-name:var(--font-geist-sans)]">
@@ -20,12 +22,13 @@ export function Chapter({
           storyTitle="The Yellow Wallpaper"
           author="Charlotte Perkins Gilman"
         />
-        
+
         {/* ChapterSlice Component */}
         <ChapterSlice
           chapterNumber={chapterNumber}
           imageUrls={imageUrls}
           text={text}
+          generateNewChapter={generateNewChapter}
         />
       </main>
       <footer className="row-start-2 flex gap-6 flex-wrap items-center justify-center"></footer>
