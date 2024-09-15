@@ -3,7 +3,7 @@ import Link from "next/link";
 
 function Sidebar() {
   return (
-    <div className="sticky top-0 w-20 bg-gray-100  p-4 border-r flex flex-col h-screen">
+    <div className="sticky top-0 w-20 p-4 flex flex-col h-screen">
       {/* Icons in the middle */}
       <ul className="flex-1 flex flex-col space-y-6 justify-center">
         <li className="flex justify-center">

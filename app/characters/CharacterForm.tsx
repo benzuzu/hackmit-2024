@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Wrapper } from '../wrapper'
 
 export function CharacterForm() {
   const [formData, setFormData] = useState({
@@ -44,8 +45,14 @@ export function CharacterForm() {
     // You can handle form submission logic here, like sending data to a backend
   };
 
+  const handleClose = () => {
+    // Handle close action, e.g., set state to hide the component
+    console.log("Close button clicked");
+  };
+
   return (
-    <div className="container mx-auto px-4 py-8 max-w-3xl">
+    <Wrapper onClose={handleClose}>
+    <div className="container mx-auto px-4 py-8 max-w-3xl bg-white">
       <h1 className="text-4xl font-bold mb-8 text-center">Design Your Character</h1>
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Name */}
@@ -333,5 +340,6 @@ export function CharacterForm() {
         </div>
       </form>
     </div>
+    </Wrapper>
   );
 }

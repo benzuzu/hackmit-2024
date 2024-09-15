@@ -1,12 +1,6 @@
-import Head from 'next/head'
-
-export default function Home() {
+export function LandingPage() {
   return (
     <div className="min-h-screen bg-gradient-to-r from-indigo-500 to-purple-600 text-white flex flex-col items-center justify-center">
-      <Head>
-        <title>Cool Landing Page</title>
-        <meta name="description" content="A cool landing page made with Next.js and Tailwind CSS" />
-      </Head>
       <header className="text-center">
         <h1 className="text-6xl font-bold mb-4">Welcome to My Website</h1>
         <p className="text-lg mb-8">Your one-stop solution for cool web experiences</p>
