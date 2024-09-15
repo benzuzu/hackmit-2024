@@ -3,6 +3,7 @@
 import { useAction } from "convex/react";
 import React, { useEffect, useState } from "react";
 import { api } from "../../convex/_generated/api";
+import Chapter from "../home/home";
 
 export default function Story() {
   const [loading, setLoading] = useState(true);
@@ -49,22 +50,9 @@ export default function Story() {
         {loading ? (
           <p>Loading...</p>
         ) : (
-          <>
-            <div className="flex flex-col gap-4">
-              {texts.map((text, index) => (
-                <div key={index} className="flex flex-col items-start">
-                  <p>{text}</p>
-                  {images[index] && (
-                    <img
-                      src={images[index]}
-                      alt={`Generated image ${index}`}
-                      className="w-full h-auto mt-4"
-                    />
-                  )}
-                </div>
-              ))}
-            </div>
-          </>
+          <div className="flex flex-col gap-4">
+            <Chapter chapterNumber={1} imageUrls={images} text={texts} />
+          </div>
         )}
       </main>
       <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center"></footer>

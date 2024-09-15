@@ -3,4 +3,10 @@ const nextConfig = {
     reactStrictMode: false,
 };
 
-export default nextConfig;
+// next.config.js
+export default {
+    images: {
+      domains: ['via.placeholder.com'],  // Add any other domains here as needed
+    },
+  };
+  
