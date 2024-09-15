@@ -32,8 +32,6 @@ export function ChapterSlice({
           <div className="flex justify-between items-start items-center">
             {/* Chapter Text */}
             <div className="text-lg text-gray-800 dark:text-gray-200 w-3/4">
-              {/* Split text into paragraphs */}
-              {console.log(text[currentSlice])}
               {<p>{text[currentSlice]}</p>}
               {/* {text[currentSlice].split("\n").map((paragraph, index) => (
                 <p key={index}>{paragraph}</p>
