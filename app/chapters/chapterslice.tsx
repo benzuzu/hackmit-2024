@@ -1,40 +1,68 @@
-import React from 'react';
-import Image from 'next/image';
+import { useState } from "react";
+import Image from "next/image";
+import { ChapterEnd } from "./chapterend";
 
 interface ChapterSliceProps {
   chapterNumber: number;
-  chapterText: string;
-  imageUrl: string; // URLs for images to embed within the text
+  text: string[];
+  imageUrls: string[]; // URLs for images to embed within the text
 }
 
 export function ChapterSlice({
   chapterNumber,
-  chapterText,
-  imageUrl,
+  text,
+  imageUrls,
 }: ChapterSliceProps) {
+  const [currentSlice, setCurrentSlice] = useState(0);
+  const endChapter = currentSlice === text.length;
+
   return (
     <div className="container mx-auto px-4 py-8">
-      {/* Chapter Title */}
-      <h2 className="text-3xl font-semibold mb-4 text-gray-800 dark:text-gray-200">Chapter {chapterNumber}</h2>
+      {endChapter ? (
+      <>
+        <ChapterEnd></ChapterEnd>
+      </>) : (
+        <>
+          {/* Chapter Title */}
+          {!currentSlice ?? (
+            <h2 className="text-3xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
+              Chapter {chapterNumber}
+            </h2>
+          )}
 
-      {/* Chapter Text */}
-      <div className="text-lg text-gray-800 dark:text-gray-200">
-        {/* Split text into paragraphs */}
-        {chapterText.split('\n').map((paragraph, index) => (
-          <p key={index}>{paragraph}</p>
-        ))}
+          {/* Container for text and button */}
+          <div className="flex justify-between items-start items-center">
+            {/* Chapter Text */}
+            <div className="text-lg text-gray-800 dark:text-gray-200 w-3/4">
+              {/* Split text into paragraphs */}
+              {console.log(text[currentSlice])}
+              {<p>{text[currentSlice]}</p>}
+              {/* {text[currentSlice].split("\n").map((paragraph, index) => (
+                <p key={index}>{paragraph}</p>
+              ))} */}
 
-        {/* Embed Image within the text */}
-        <div className="w-full h-64 my-4 relative">
-            <Image
-              src={imageUrl}
-              alt="Chapter image"
-              layout="fill"
-              objectFit="contain"
-              className="rounded-lg shadow-md"
-            />
+              {/* Embed Image within the text */}
+              <div className="w-full h-64 my-4 relative">
+                <img
+                  src={imageUrls[currentSlice]}
+                  alt={`Generated image ${currentSlice}`}
+                  className="w-full h-auto mt-4"
+                />
+              </div>
+            </div>
+
+            {/* Button on the right-hand side */}
+            <div className="ml-4">
+              <button
+                onClick={() => setCurrentSlice((prev) => prev + 1)}
+                className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700"
+              >
+                Next Slice
+              </button>
+            </div>
           </div>
-      </div>
+        </>
+      )}
     </div>
   );
 }

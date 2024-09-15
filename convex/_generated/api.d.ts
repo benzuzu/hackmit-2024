@@ -15,7 +15,8 @@ import type {
   FilterApi,
   FunctionReference,
 } from "convex/server";
-import type * as story from "../story.js";
+import type * as chapter from "../chapter.js";
+import type * as chapterGeneration from "../chapterGeneration.js";
 
 /**
  * A utility for referencing Convex functions in your app's API.
@@ -26,7 +27,8 @@ import type * as story from "../story.js";
  * ```
  */
 declare const fullApi: ApiFromModules<{
-  story: typeof story;
+  chapter: typeof chapter;
+  chapterGeneration: typeof chapterGeneration;
 }>;
 export declare const api: FilterApi<
   typeof fullApi,
