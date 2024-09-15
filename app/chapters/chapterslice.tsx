@@ -24,11 +24,9 @@ export function ChapterSlice({
       </>) : (
         <>
           {/* Chapter Title */}
-          {!currentSlice ?? (
-            <h2 className="text-3xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
+          <h2 className="text-3xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               Chapter {chapterNumber}
-            </h2>
-          )}
+          </h2>
 
           {/* Container for text and button */}
           <div className="flex justify-between items-start items-center">
@@ -42,24 +40,20 @@ export function ChapterSlice({
               ))} */}
 
               {/* Embed Image within the text */}
-              <div className="w-full h-64 my-4 relative">
-                <img
+              <img
                   src={imageUrls[currentSlice]}
                   alt={`Generated image ${currentSlice}`}
                   className="w-full h-auto mt-4"
                 />
-              </div>
             </div>
 
             {/* Button on the right-hand side */}
-            <div className="ml-4">
-              <button
+            <button
                 onClick={() => setCurrentSlice((prev) => prev + 1)}
                 className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700"
               >
                 Next Slice
-              </button>
-            </div>
+            </button>
           </div>
         </>
       )}
