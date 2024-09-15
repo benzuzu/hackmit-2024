@@ -58,8 +58,8 @@ export default function Story() {
         ) : (
           <div className="flex flex-col gap-4">
             <div className="flex flex-row justify-between w-full">
-              <div className="text-2xl underline cursor-pointer" onClick={handlePreviousChapter}>previous chapter</div>
-              <div className="text-2xl underline cursor-pointer" onClick={handleNextChapter}>next chapter</div>
+              <div className={`text-2xl underline cursor-pointer ${chapterIndex == 0 && "invisible"}`} onClick={handlePreviousChapter}>previous chapter</div>
+              <div className={`text-2xl underline cursor-pointer ${chapterIndex == sharedState.currentChapter && "invisible"}`} onClick={handleNextChapter}>next chapter</div>
             </div>
             <Chapter
               chapterNumber={chapterIndex}
