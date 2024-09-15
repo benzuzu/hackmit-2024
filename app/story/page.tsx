@@ -3,7 +3,7 @@
 import { useAction } from "convex/react";
 import React, { useEffect, useState } from "react";
 import { api } from "../../convex/_generated/api";
-import Chapter from "../home/home";
+import { Chapter } from "../components/chapters/chapter";
 
 export default function Story() {
   const [loading, setLoading] = useState(true);
