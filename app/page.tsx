@@ -6,6 +6,9 @@ import { useEffect, useState } from "react";
 import { Chapter } from "./chapters/chapter";
 import StoriesPage from "./stories/stories";
 import LandingPage from "./landing/LandingPage";
+import { CharacterForm } from "./characters/CharacterForm";
+import { StoryForm } from "./stories/storiesform";
+import CharacterMenu from "./characters/characters";
 
 
 export default function Home() {
@@ -64,7 +67,7 @@ export default function Home() {
           </>
         )} */}
         <div className="flex flex-col gap-4">
-          <StoriesPage/>
+          <CharacterForm/>
         </div>
       </main>
       <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center"></footer>
