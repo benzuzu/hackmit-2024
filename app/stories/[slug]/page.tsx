@@ -25,6 +25,7 @@ export default function StoryPage() {
   );
 
   const loadChapterData = useAction(api.chapter.loadChapterData);
+  console.log("Current Story:", sharedState.currentStory); // Log current story ID
 
   useEffect(() => {
     const loadChapter = async () => {
@@ -34,6 +35,7 @@ export default function StoryPage() {
           storyId: sharedState.currentStory! as Id<"stories">,
           chapterIndex: BigInt(chapterIndex),
         });
+        console.log("Chapter Data:", chapterData); // Log chapter data for debugging
         setTexts(chapterData.texts);
         setImages(chapterData.images);
         setTitle(chapterData.title); // Set the title from chapter data
