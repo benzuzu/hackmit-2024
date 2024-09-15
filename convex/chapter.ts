@@ -1,8 +1,40 @@
-import { action, internalAction, internalMutation, query } from "./_generated/server";
+import { action, internalAction, internalMutation, internalQuery, mutation, query } from "./_generated/server";
 import { internal } from "./_generated/api";
 import { v } from "convex/values";
 import { Id, Doc } from "./_generated/dataModel";
-import { TChapter } from "./types";
+import { TChapter, TLoadedChapter } from "./types";
+
+export const loadChapterData = action({
+    args: {chapterIndex: v.int64(), storyId: v.id("stories")},
+    handler: async (ctx, { chapterIndex, storyId }) => {
+        const story: Doc<"stories"> = (await ctx.runQuery(internal.chapter.getStoryById, { storyId }))!;
+        const chapterId = story.chapters[Number(chapterIndex) - 1];
+        const chapter: Doc<"chapters"> = (await ctx.runQuery(internal.chapter.getChapterById, { chapterId }))!;
+        
+        const loadedImages = await ctx.runMutation(internal.chapter.loadImages, { images: chapter.images });
+        const loadedChapter: TLoadedChapter = {
+            texts: chapter.texts,
+            images: loadedImages,
+        }
+        return loadedChapter;
+    }
+})
+
+export const getStoryById = internalQuery({
+    args: { storyId: v.id("stories") },
+    handler: async (ctx, { storyId }) => {
+        const story = await ctx.db.get(storyId);
+        return story;
+    },
+});
+
+export const getChapterById = internalQuery({
+    args: { chapterId: v.id("chapters") },
+    handler: async (ctx, { chapterId }) => {
+        const chapter = await ctx.db.get(chapterId);
+        return chapter;
+    },
+});
 
 export const storeGeneratedChapter = internalAction({
     args: {
@@ -98,7 +130,7 @@ export const updateStoryWithChapter = internalMutation({
     },
 });
 
-export const getImages = action({
+export const loadImages = internalMutation({
     args: { images: v.array(v.id("_storage")) },
     handler: async (ctx, { images }) => {
         const imageUrls = []
@@ -109,12 +141,3 @@ export const getImages = action({
         return imageUrls;
     }
 })
-
-export const imageTest = query({
-    args: {},
-    handler: async (ctx) => {
-        const testImg = "kg2b230zvskca0p2cvwtr8ykbh70t0ew"
-        const url = await ctx.storage.getUrl(testImg);
-        return url;
-    },
-});

@@ -1,6 +1,11 @@
 "use client"
 
-import React from "react";
+import { api } from "@/convex/_generated/api";
+import { useQuery } from "convex/react";
+import { useRouter } from "next/navigation";
+import React, { useEffect } from "react";
+import { useStateContext } from "../components/StateContext";
+import type { SharedState } from "../components/StateContext";
 
 const articles = [
   {
@@ -74,8 +79,23 @@ const articles = [
 ];
 
 export default function TrendingPage() {
+  const router = useRouter();
+  const firstStory = useQuery(api.story.getFirstStory);
+  const { setSharedState, sharedState } = useStateContext();
+
+  useEffect(() => {
+    if (firstStory != null && sharedState.currentStory !== firstStory[0]._id) {
+      setSharedState((prevState: SharedState) => ({
+        ...prevState,
+        currentStory: firstStory[0]._id,
+        currentChapter: Number(firstStory[0].currentChapterIndex),
+      }));
+    }
+  }, [firstStory, setSharedState, sharedState.currentStory]);
+
   return (
     <div className="p-6 space-y-8">
+      <button className="border-4 text-xl bg-gray-400 p-8 rounded-lg" onClick={() => router.push("/story")}>View Story</button>
       {articles.map((article, index) => (
         <a
           key={index}

@@ -4,56 +4,51 @@ import { useAction, useQuery } from "convex/react";
 import React, { useEffect, useState } from "react";
 import { api } from "../../convex/_generated/api";
 import { Chapter } from "../components/chapters/chapter";
-import type { TChapter } from "@/convex/types";
 import { Id } from "@/convex/_generated/dataModel";
 import { useRouter } from "next/navigation";
+import { SharedState, useStateContext } from "../components/StateContext";
+import { TLoadedChapter } from "@/convex/types";
 
 export default function Story() {
   const router = useRouter();
+  const { setSharedState, sharedState } = useStateContext();
 
   const [loading, setLoading] = useState(true);
   const [texts, setTexts] = useState<string[]>([]); // Initialize texts as an array
   const [images, setImages] = useState<string[]>([]); // Initialize images as an array of URLs
-  const [chapterIndex, setChapterIndex] = useState<number>(0);
+  const [chapterIndex, setChapterIndex] = useState<number>(sharedState.currentChapter!); 
 
-  const generateAndStoreChapter = useAction(
-    api.chapterGeneration.generateAndStoreChapter
-  );
-  const getImages = useAction(api.chapter.getImages);
-  const firstStory = useQuery(api.story.getFirstStory);
+  const loadChapterData = useAction(api.chapter.loadChapterData);
 
-  // Create the function that can be called manually or during the initial render
-  
-
-  // Call the chapter generation function on initial render
   useEffect(() => {
-    const generateNewChapter = async () => {
+    const loadChapter = async () => {
       setLoading(true);
       try {
-        const words = sessionStorage.getItem("words");
-        if (words) {
-          // Generate and fetch the chapter
-          const chapter: TChapter = (await generateAndStoreChapter({
-            storyId: "jd7bwcwma5tedap0ct1s6806zh70rwyq" as Id<"stories">,
-            words,
-          }))!;
-          setTexts(chapter.texts);
-          const imageUrls = await getImages({ images: chapter.images });
-          setImages(imageUrls);
-          setChapterIndex(Number(chapter.index));
-        } else {
-          throw new Error("Words not found in local storage");
-        }
+        const chapterData: TLoadedChapter = await loadChapterData({storyId: sharedState.currentStory! as Id<"stories">, chapterIndex: BigInt(chapterIndex)});
+        setTexts(chapterData.texts);
+        setImages(chapterData.images);
       } catch (error) {
         console.error("Error generating chapter:", error);
       } finally {
         setLoading(false);
       }
     };
-    generateNewChapter()
 
+    loadChapter()
 
-  }, [generateAndStoreChapter, getImages]); // Empty dependency array ensures it runs once on mount
+  }, [chapterIndex, loadChapterData, sharedState.currentStory]);
+
+  const handlePreviousChapter = () => {
+    if (chapterIndex > 0) {
+      setChapterIndex(chapterIndex - 1);
+    }
+  }
+
+  const handleNextChapter = () => {
+    if (chapterIndex <= sharedState.currentChapter!) {
+      setChapterIndex(chapterIndex + 1);
+    }
+  }
 
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
@@ -62,6 +57,10 @@ export default function Story() {
           <p>Loading...</p>
         ) : (
           <div className="flex flex-col gap-4">
+            <div className="flex flex-row justify-between w-full">
+              <div className="text-2xl underline cursor-pointer" onClick={handlePreviousChapter}>previous chapter</div>
+              <div className="text-2xl underline cursor-pointer" onClick={handleNextChapter}>next chapter</div>
+            </div>
             <Chapter
               chapterNumber={chapterIndex}
               imageUrls={images}

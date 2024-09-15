@@ -6,3 +6,8 @@ export interface TChapter {
     texts: string[],
     images: Id<"_storage">[],
 }
+
+export interface TLoadedChapter {
+    texts: string[],
+    images: string[],
+}
