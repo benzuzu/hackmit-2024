@@ -1,6 +1,6 @@
 "use client";
 
-import { useAction } from "convex/react";
+import { useAction, useQuery } from "convex/react";
 import React, { useEffect, useState } from "react";
 import { api } from "../../convex/_generated/api";
 import { Chapter } from "../components/chapters/chapter";
@@ -20,6 +20,7 @@ export default function Story() {
     api.chapterGeneration.generateAndStoreChapter
   );
   const getImages = useAction(api.chapter.getImages);
+  const firstStory = useQuery(api.story.getFirstStory);
 
   // Create the function that can be called manually or during the initial render
   const generateNewChapter = async () => {
