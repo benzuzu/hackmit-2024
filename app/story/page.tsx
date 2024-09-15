@@ -1,17 +1,17 @@
 "use client";
 
-import { useAction, useQuery } from "convex/react";
+import { useAction } from "convex/react";
 import React, { useEffect, useState } from "react";
 import { api } from "../../convex/_generated/api";
 import { Chapter } from "../components/chapters/chapter";
 import { Id } from "@/convex/_generated/dataModel";
 import { useRouter } from "next/navigation";
-import { SharedState, useStateContext } from "../components/StateContext";
+import { useStateContext } from "../components/StateContext";
 import { TLoadedChapter } from "@/convex/types";
 
 export default function Story() {
   const router = useRouter();
-  const { setSharedState, sharedState } = useStateContext();
+  const { sharedState } = useStateContext();
 
   const [loading, setLoading] = useState(true);
   const [texts, setTexts] = useState<string[]>([]); // Initialize texts as an array
@@ -45,7 +45,7 @@ export default function Story() {
   }
 
   const handleNextChapter = () => {
-    if (chapterIndex <= sharedState.currentChapter!) {
+    if (chapterIndex < sharedState.currentChapter!) {
       setChapterIndex(chapterIndex + 1);
     }
   }
