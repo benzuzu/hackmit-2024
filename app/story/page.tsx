@@ -25,7 +25,6 @@ export default function Story() {
     const loadChapter = async () => {
       setLoading(true);
       try {
-        console.log("Loading chapter data...");
         const chapterData: TLoadedChapter = await loadChapterData({
           storyId: sharedState.currentStory! as Id<"stories">,
           chapterIndex: BigInt(chapterIndex),

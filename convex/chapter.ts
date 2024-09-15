@@ -57,6 +57,8 @@ export const storeGeneratedChapter = internalAction({
             internal.chapter.getStory,
             { storyId }
         ))!;
+        console.log("howdy")
+        console.log(initial)
         const newChapterIndex = story.currentChapterIndex + (initial ? BigInt(0) : BigInt(1));
         const images: Id<"_storage">[] = [];
         for (const url of generatedImageUrls) {
