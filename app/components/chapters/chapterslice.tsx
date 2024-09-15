@@ -90,7 +90,7 @@ export function ChapterSlice({
             {/* Button on the right-hand side */}
             <button
               onClick={() => setCurrentSlice((prev) => prev + 1)}
-              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700"
+              className="bg-black text-white px-4 py-2 rounded hover:bg-black"
             >
               {/* <div className="fixed bottom-4 left-20">
                 {currentSlice > 0 && (
@@ -106,7 +106,7 @@ export function ChapterSlice({
                   </button>
                 )}
               </div> */}
-              Next Slice
+              Next Page
             </button>
           </div>
         </>
