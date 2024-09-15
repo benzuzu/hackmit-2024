@@ -55,11 +55,7 @@ export const generateImages = action({
   handler: async (_, args) => {
     try {
       const imagePromises = args.texts.map((text, index) => {
-        const context = args.texts.slice(0, index).join(" ");
-
-        const prompt = context
-          ? `Context: ${args.character1} ${args.character2}. Now, draw the following paragraph. Use the style of Une64e2g1l7URd6C : ${text}.`
-          : text;
+        const prompt = `Context: ${args.character1} ${args.character2}. Now, draw the following paragraph. Use a cartoonish style similar to Une64e2g1l7URd6 : ${text}.`;
 
         return openai.images
           .generate({

@@ -3,6 +3,8 @@
 import { useAction } from "convex/react";
 import { api } from "../convex/_generated/api";
 import { useEffect, useState } from "react";
+import { Chapter } from "./chapters/chapter";
+import TrendingPage from "./home/home";
 
 export default function Home() {
   const [loading, setLoading] = useState(true);
@@ -44,29 +46,23 @@ export default function Home() {
   }, [generateTexts, generateImages]);
 
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
+    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen font-[family-name:var(--font-geist-sans)]">
+      <main className="flex flex-col gap-8 row-start-2 items-center">
         {loading ? (
           <p>Loading...</p>
         ) : (
           <>
             <div className="flex flex-col gap-4">
-              {texts.map((text, index) => (
-                <div key={index} className="flex flex-col items-start">
-                  <p>{text}</p>
-                  {images[index] && (
-                    <img
-                      src={images[index]}
-                      alt={`Generated image ${index}`}
-                      className="w-full h-auto mt-4"
-                    />
-                  )}
-                </div>
-              ))}
+              <Chapter
+                chapterNumber={1}
+                imageUrls={images}
+                text={texts}
+              />
             </div>
           </>
         )}
       </main>
+
       <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center"></footer>
     </div>
   );
