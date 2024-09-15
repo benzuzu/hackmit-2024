@@ -34,8 +34,8 @@ export function ChapterEnd({ handleSubmit }: ChapterEndProps) {
             value={word}
             onChange={(e) => handleWordChange(index, e.target.value)}
             placeholder={`Word ${index + 1}`}
-            className="border border-gray-300 dark:border-gray-700 p-2 rounded-lg w-20 text-gray-900 dark:text-gray-100 text-center"
-            maxLength={10} // Optional: limit the length of each word
+            className="border border-gray-300 dark:border-gray-700 p-2 rounded-lg w-20 text-black dark:text-black text-center"
+            maxLength={15} // Optional: limit the length of each word
           />
         ))}
       </div>
