@@ -4,28 +4,54 @@ import { useState } from "react";
 import { ChapterEnd } from "./chapterend";
 import React from "react";
 import { useRouter } from "next/navigation";
+import { TChapter } from "../../../convex/types";
+import { generateAndStoreChapter } from "../../../convex/chapterGeneration";
+import { useAction } from "convex/react";
+import { api } from "../../../convex/_generated/api";
+import { Id } from "../../../convex/_generated/dataModel";
 
 interface ChapterSliceProps {
   chapterNumber: number;
   text: string[];
   imageUrls: string[]; // URLs for images to embed within the text
-  generateNewChapter: () => void;
 }
 
 export function ChapterSlice({
   chapterNumber,
   text,
   imageUrls,
-  generateNewChapter,
 }: ChapterSliceProps) {
   const router = useRouter();
   const [currentSlice, setCurrentSlice] = useState(0);
   const endChapter = currentSlice === text.length;
 
+  const generateAndStoreChapter = useAction(
+    api.chapterGeneration.generateAndStoreChapter
+  );
+
+  const generateNewChapter = async () => {
+    try {
+      const words = sessionStorage.getItem("words");
+      if (words) {
+        // Generate and fetch the chapter
+        const chapter: TChapter = (await generateAndStoreChapter({
+          storyId: "j97752neevjp28tme8a1zs5z2570twc5" as Id<"stories">,
+          words,
+        }))!;
+      } else {
+        throw new Error("Words not found in local storage");
+      }
+    } catch (error) {
+      console.error("Error generating chapter:", error);
+    }
+  };
+
   const handleSubmit = async (words: string[]) => {
     await sessionStorage.setItem("words", JSON.stringify(words));
-    setCurrentSlice(0);
     generateNewChapter();
+    console.log("ChapterSlice handleSubmit");
+    setCurrentSlice(0);
+    router.push("/");
   };
 
   return (
