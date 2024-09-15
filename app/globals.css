@@ -35,8 +35,27 @@ html, body {
 :root {
   --background: #ffffff; /* Light background */
   --foreground: #171717; /* Dark text */
+
+  /* --primary-gradient: conic-gradient(
+    from 180deg at 70% 70%, 
+    #b23a3a 0deg,      
+    #a83232 90deg,    
+    #8c1f1f 180deg,   
+    #b84747 270deg,   
+    #b23a3a 360deg     
+  );
+
+  --secondary-gradient: conic-gradient(
+    from 360deg at 70% 70%, 
+    #a82323 0deg,      
+    #8c1f1f 120deg,    
+    #a83232 240deg,    
+    #b23a3a 360deg     
+  );
+   */
+  
   --primary-gradient: conic-gradient(
-    from 180deg at 50% 50%, 
+    from 180deg at 70% 70%, 
     #ff8b7e 0deg, 
     #e24e6b 90deg, 
     #7ed2da 180deg, 
@@ -45,7 +64,7 @@ html, body {
   );
 
   --secondary-gradient: conic-gradient(
-    from 360deg at 50% 50%, 
+    from 360deg at 70% 70%, 
     #eb7494 0deg, 
     #ae77b2 120deg, 
     #97b5da 240deg, 
@@ -72,8 +91,8 @@ body {
 .main::after {
   content: '';
   position: absolute;
-  width: 60vw;
-  height: 60vw;
+  width: 70vw;
+  height: 70vw;
   border-radius: 50%;
   filter: blur(100px);
   opacity: 0.8;
@@ -94,7 +113,7 @@ body {
     transform: translateX(0px) translateY(0px);
   }
   50% {
-    transform: translateX(200px) translateY(150px) scale(1.2);
+    transform: translateX(200px) translateY(150px) scale(1.5);
   }
   100% {
     transform: translateX(0px) translateY(0px);
@@ -106,7 +125,7 @@ body {
     transform: translateX(0px) translateY(0px);
   }
   50% {
-    transform: translateX(-250px) translateY(150px) scale(0.8);
+    transform: translateX(-250px) translateY(150px) scale(2.0);
   }
   100% {
     transform: translateX(0px) translateY(0px);
