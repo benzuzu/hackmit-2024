@@ -22,6 +22,7 @@ export const loadChapterData = action({
         const loadedChapter: TLoadedChapter = {
             texts: chapter.texts,
             images: loadedImages,
+            title: story.title,
         }
         return loadedChapter;
     }

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { VaraText } from "../components/handwriting";
 import WrapperPlain from "../components/WrapperPlain";
+import Link from 'next/link';
 
 export default function LandingPage() {
   // State to control the visibility of the button
@@ -25,14 +26,14 @@ export default function LandingPage() {
         </div>
 
         {/* Button with conditional visibility */}
-        <button
+        <Link href="/stories"
           className={`mt-8 px-6 py-3 text-black rounded-lg text-lg bg-transparent ${buttonVisible ? 'visible' : 'invisible'} -ml-12`} // Adjust the value as needed
           style={{ transition: 'visibility 0s, opacity 0.5s linear' }}
         >
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-12">
             <path strokeLinecap="round" strokeLinejoin="round" d="m12.75 15 3-3m0 0-3-3m3 3h-7.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
           </svg>
-        </button>
+        </Link>
       </div>
     </WrapperPlain>
   );

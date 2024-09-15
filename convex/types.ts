@@ -10,4 +10,5 @@ export interface TChapter {
 export interface TLoadedChapter {
     texts: string[],
     images: string[],
+    title: string
 }

@@ -20,13 +20,13 @@ export function ChapterEnd({ handleSubmit }: ChapterEndProps) {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center mt-10 p-8 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-lg w-full sm:w-2/3 mx-auto">
-      <h2 className="text-2xl font-semibold text-gray-800 dark:text-gray-200 mb-6 text-center">
-        What should happen next? Give us 5 words.
+    <div className="flex flex-col items-center justify-center mx-auto">
+      <h2 className="font-semibold mb-6 text-center">
+        Set your intentions, give us 5 words to inform the plot! 
       </h2>
 
       {/* Container for the 5 word input boxes */}
-      <div className="flex flex-wrap gap-4 justify-center mb-6">
+      <div className="flex flex-wrap flex-col gap-3 justify-center mb-6">
         {words.map((word, index) => (
           <input
             key={index}
@@ -34,19 +34,23 @@ export function ChapterEnd({ handleSubmit }: ChapterEndProps) {
             value={word}
             onChange={(e) => handleWordChange(index, e.target.value)}
             placeholder={`Word ${index + 1}`}
-            className="border border-gray-300 dark:border-gray-700 p-2 rounded-lg w-20 text-black dark:text-black text-center"
-            maxLength={15} // Optional: limit the length of each word
+            className="border p-2 rounded-md w-36 text-center focus:outline-none focus:ring-2 focus:ring-black"
+            maxLength={20} // Optional: limit the length of each word
           />
         ))}
       </div>
 
       {/* Error message */}
-      {error && <p className="text-red-500 font-semibold mb-4">{error}</p>}
+      {error && (
+        <p className="font-semibold mb-4">
+          {error}
+        </p>
+      )}
 
       {/* Submit button */}
       <button
         onClick={() => handleSubmit(words)}
-        className="bg-blue-500 text-white font-semibold py-2 px-6 rounded-lg hover:bg-blue-700 transition duration-300"
+        className=" py-3 mt-10 px-8 rounded-md border-2 border-black hover:bg-black hover:text-white transition-all duration-300 ease-in-out"
       >
         Submit
       </button>

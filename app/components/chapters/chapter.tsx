@@ -6,6 +6,7 @@ interface ChapterProps {
   chapterNumber: number;
   text: string[];
   imageUrls: string[]; // URLs for images to embed within the text
+  title: string;
 }
 
 export function Chapter({ chapterNumber, text, imageUrls }: ChapterProps) {

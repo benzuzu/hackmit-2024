@@ -5,7 +5,6 @@ import React, { useEffect, useState } from "react";
 import { api } from "../../convex/_generated/api";
 import { Chapter } from "../components/chapters/chapter";
 import { Id } from "@/convex/_generated/dataModel";
-import { useRouter } from "next/navigation";
 import { useStateContext } from "../components/StateContext";
 import { TLoadedChapter } from "@/convex/types";
 
