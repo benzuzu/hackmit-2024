@@ -9,8 +9,8 @@ export default function Home() {
   // const generateStory = useAction(api.story.generate);
 
   return (
-    <div className="grid min-h-screen p-8 pb-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col row-start-2 items-center sm:items-start">
+    <div className="grid min-h-screen flex items-center justify-center font-[family-name:var(--font-geist-sans)]">
+      <main className="flex flex-col row-start-2 justify-center items-center ">
         {/* Render the ChapterSlice component with appropriate props */}
         <Chapter
           chapterNumber={1}
