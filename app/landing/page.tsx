@@ -1,4 +1,7 @@
-import { useEffect, useState } from 'react';
+"use client";
+
+import React from "react";
+import { useEffect, useState } from "react";
 
 // Define a type for the fade-in state
 type FadeInState = {
@@ -32,28 +35,30 @@ const LandingPage: React.FC = () => {
     <div className="relative w-screen h-screen overflow-hidden">
       {/* Sunset */}
       <div
-        className={`absolute top-0 left-0 w-full h-full bg-sunset bg-cover transition-opacity duration-1000 ease-in-out ${fadeIn.sunset ? 'opacity-100' : 'opacity-0'}`}
+        className={`absolute top-0 left-0 w-full h-full bg-sunset bg-cover transition-opacity duration-1000 ease-in-out ${fadeIn.sunset ? "opacity-100" : "opacity-0"}`}
       />
       {/* Mountains */}
       <div
-        className={`absolute top-0 left-0 w-full h-full bg-mountains bg-cover transition-opacity duration-1000 ease-in-out ${fadeIn.mountains ? 'opacity-100' : 'opacity-0'}`}
+        className={`absolute top-0 left-0 w-full h-full bg-mountains bg-cover transition-opacity duration-1000 ease-in-out ${fadeIn.mountains ? "opacity-100" : "opacity-0"}`}
       />
       {/* Landscape */}
       <div
-        className={`absolute top-0 left-0 w-full h-full bg-landscape bg-cover transition-opacity duration-1000 ease-in-out ${fadeIn.landscape ? 'opacity-100' : 'opacity-0'}`}
+        className={`absolute top-0 left-0 w-full h-full bg-landscape bg-cover transition-opacity duration-1000 ease-in-out ${fadeIn.landscape ? "opacity-100" : "opacity-0"}`}
       />
       {/* Clouds */}
       <div
-        className={`absolute top-0 left-0 w-full h-full bg-clouds bg-cover transition-opacity duration-1000 ease-in-out ${fadeIn.clouds ? 'opacity-100' : 'opacity-0'}`}
+        className={`absolute top-0 left-0 w-full h-full bg-clouds bg-cover transition-opacity duration-1000 ease-in-out ${fadeIn.clouds ? "opacity-100" : "opacity-0"}`}
       />
 
       {/* Content */}
       <div className="relative z-10 flex flex-col items-center justify-center h-full text-center">
-        <h1 className={`text-5xl font-bold text-white transition-opacity duration-1000 ease-in-out ${fadeIn.content ? 'opacity-100' : 'opacity-0'}`}>
+        <h1
+          className={`text-5xl font-bold text-white transition-opacity duration-1000 ease-in-out ${fadeIn.content ? "opacity-100" : "opacity-0"}`}
+        >
           Create Your Fable
         </h1>
         <button
-          className={`mt-6 px-8 py-3 bg-blue-500 text-white rounded-lg shadow-lg transition-opacity duration-1000 ease-in-out ${fadeIn.content ? 'opacity-100' : 'opacity-0'}`}
+          className={`mt-6 px-8 py-3 bg-blue-500 text-white rounded-lg shadow-lg transition-opacity duration-1000 ease-in-out ${fadeIn.content ? "opacity-100" : "opacity-0"}`}
         >
           Create
         </button>

@@ -1,6 +1,11 @@
+import React from "react";
 import { useState } from "react";
 
-export function ChapterEnd() {
+type ChapterEndProps = {
+  handleSubmit: (words: string[]) => void;
+};
+
+export function ChapterEnd({ handleSubmit }: ChapterEndProps) {
   // State to hold the input for the 5 words
   const [words, setWords] = useState<string[]>(["", "", "", "", ""]);
   const [error, setError] = useState("");
@@ -11,20 +16,6 @@ export function ChapterEnd() {
     updatedWords[index] = value;
     setWords(updatedWords);
     setError(""); // Reset error when input changes
-  };
-
-  // Handle form submission
-  const handleSubmit = () => {
-    const filledWords = words.every((word) => word.trim() !== "");
-
-    if (filledWords) {
-      // Handle valid input (you can process this further)
-      console.log("User's input:", words);
-      // Example: send the input to an API or save it for later
-    } else {
-      // Set error message if any word is missing
-      setError("Please fill in all 5 words.");
-    }
   };
 
   return (
@@ -49,15 +40,11 @@ export function ChapterEnd() {
       </div>
 
       {/* Error message */}
-      {error && (
-        <p className="text-red-500 font-semibold mb-4">
-          {error}
-        </p>
-      )}
+      {error && <p className="text-red-500 font-semibold mb-4">{error}</p>}
 
       {/* Submit button */}
       <button
-        onClick={handleSubmit}
+        onClick={() => handleSubmit(words)}
         className="bg-blue-500 text-white font-semibold py-2 px-6 rounded-lg hover:bg-blue-700 transition duration-300"
       >
         Submit

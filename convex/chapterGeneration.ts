@@ -11,7 +11,7 @@ const apiKey = process.env.OPENAI_API_KEY;
 const openai = new OpenAI({ apiKey });
 
 export const generateTexts = action({
-  args: { character1: v.string(), character2: v.string() },
+  args: { character1: v.string(), character2: v.string(), words: v.string() },
   handler: async (_, args) => {
     try {
       // Make a call to OpenAI API using the `createCompletion` method
@@ -24,7 +24,9 @@ export const generateTexts = action({
               args.character1 +
               args.character2 +
               "Write the first chapter of a story with the above characters in 3 parts" +
-              "Each part should be a string in the JSON with key 'part_x'.",
+              "Each part should be a string in the JSON with key 'part_x'." +
+              "Importantly, use the following 5 words: " +
+              args.words,
           },
         ],
         response_format: {

@@ -23,17 +23,21 @@ export default function Story() {
     const fetchChapter = async () => {
       setLoading(true);
       try {
-        const texts: string[] = await generateTexts({
-          character1,
-          character2,
-        });
-        const images: string[] = await generateImages({
-          character1,
-          character2,
-          texts,
-        });
-        setTexts(texts);
-        setImages(images);
+        const words = localStorage.getItem("words");
+        if (words) {
+          const texts: string[] = await generateTexts({
+            character1,
+            character2,
+            words,
+          });
+          const images: string[] = await generateImages({
+            character1,
+            character2,
+            texts,
+          });
+          setTexts(texts);
+          setImages(images);
+        }
       } catch (error) {
         console.error("Error generating chapter:", error);
       } finally {
