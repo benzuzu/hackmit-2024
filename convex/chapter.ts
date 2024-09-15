@@ -41,15 +41,16 @@ export const storeGeneratedChapter = internalAction({
         storyId: v.id("stories"),
         generatedText: v.array(v.string()),
         generatedImageUrls: v.array(v.string()),
+        initial: v.boolean(),
     },
     handler: async (ctx, args) => {
-        const { storyId, generatedText, generatedImageUrls } = args;
+        const { storyId, generatedText, generatedImageUrls, initial } = args;
 
         const story: Doc<"stories"> = (await ctx.runMutation(
             internal.chapter.getStory,
             { storyId }
         ))!;
-        const newChapterIndex = story.currentChapterIndex + BigInt(1);
+        const newChapterIndex = story.currentChapterIndex + (initial ? BigInt(0) : BigInt(1));
         const images: Id<"_storage">[] = [];
         for (const url of generatedImageUrls) {
             const response = await fetch(url);

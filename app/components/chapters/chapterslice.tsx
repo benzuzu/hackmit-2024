@@ -9,6 +9,7 @@ import { generateAndStoreChapter } from "../../../convex/chapterGeneration";
 import { useAction } from "convex/react";
 import { api } from "../../../convex/_generated/api";
 import { Id } from "../../../convex/_generated/dataModel";
+import { SharedState, useStateContext } from "../StateContext";
 
 interface ChapterSliceProps {
   chapterNumber: number;
@@ -24,6 +25,7 @@ export function ChapterSlice({
   const router = useRouter();
   const [currentSlice, setCurrentSlice] = useState(0);
   const endChapter = currentSlice === text.length;
+  const { sharedState, setSharedState } = useStateContext();
 
   const generateAndStoreChapter = useAction(
     api.chapterGeneration.generateAndStoreChapter
@@ -33,10 +35,14 @@ export function ChapterSlice({
     try {
       if (words) {
         // Generate and fetch the chapter
-        const chapter: TChapter = await generateAndStoreChapter({
-          storyId: "j97752neevjp28tme8a1zs5z2570twc5" as Id<"stories">,
+        await generateAndStoreChapter({
+          storyId: sharedState.currentStory! as Id<"stories">,
           words: JSON.stringify(words),
         });
+        setSharedState((prevState: SharedState) => ({
+          ...prevState,
+          currentChapter: sharedState.currentChapter! + 1,
+        }));
       } else {
         throw new Error("Words not found in local storage");
       }

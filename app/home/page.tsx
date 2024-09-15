@@ -96,6 +96,7 @@ export default function TrendingPage() {
   return (
     <div className="p-6 space-y-8">
       <button className="border-4 text-xl bg-gray-400 p-8 rounded-lg" onClick={() => router.push("/story")}>View Story</button>
+      <button className="border-4 text-xl bg-gray-400 p-8 rounded-lg" onClick={() => router.push("/new")}>New Story</button>
       {articles.map((article, index) => (
         <a
           key={index}

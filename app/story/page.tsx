@@ -43,7 +43,7 @@ export default function Story() {
   }, [chapterIndex, loadChapterData, sharedState.currentStory]);
 
   const handlePreviousChapter = () => {
-    if (chapterIndex > 0) {
+    if (chapterIndex > 1) {
       setChapterIndex(chapterIndex - 1);
     }
   };
@@ -63,7 +63,7 @@ export default function Story() {
           <div className="flex flex-col gap-4">
             <div className="flex flex-row justify-between w-full">
               <div
-                className={`text-2xl underline cursor-pointer ${chapterIndex == 0 && "invisible"}`}
+                className={`text-2xl underline cursor-pointer ${chapterIndex == 1 && "invisible"}`}
                 onClick={handlePreviousChapter}
               >
                 previous chapter
