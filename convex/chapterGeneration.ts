@@ -59,9 +59,9 @@ export const generateTexts = internalAction({
               args.character1 +
               args.character2 +
               "Write the first chapter of a story with the above characters in 3 parts" +
-              "Each part should be a string in the JSON with key 'part_x'.",
-            // "Importantly, use the following 5 words: " +
-            // args.words,
+              "Each part should be a string in the JSON with key 'part_x'." +
+              "Importantly, use the following 5 words: " +
+              args.words,
           },
         ],
         response_format: {
