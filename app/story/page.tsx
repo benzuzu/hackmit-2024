@@ -1,6 +1,6 @@
 "use client";
 
-import { useAction } from "convex/react";
+import { useAction, useQuery } from "convex/react";
 import React, { useEffect, useState } from "react";
 import { api } from "../../convex/_generated/api";
 import { Chapter } from "../components/chapters/chapter";
@@ -13,20 +13,22 @@ export default function Story() {
   const [images, setImages] = useState<string[]>([]); // Initialize images as an array of URLs
   const [chapterIndex, setChapterIndex] = useState<number>(0);
 
-  const generateAndStoreChapter = useAction(
-    api.chapterGeneration.generateAndStoreChapter
-  );
+  const generateAndStoreChapter = useAction(api.chapterGeneration.generateAndStoreChapter);
   const getImages = useAction(api.chapter.getImages);
+  const firstStory = useQuery(api.story.getFirstStory);
 
   useEffect(() => {
     const fetchChapter = async () => {
       setLoading(true);
+      if (firstStory == null) {
+        return
+      }
       try {
-        const words = localStorage.getItem("words");
-        if (words) {
+        // const words = localStorage.getItem("words");
+        if (true) {
           const chapter: TChapter = (await generateAndStoreChapter({
-            storyId: "j97752neevjp28tme8a1zs5z2570twc5" as Id<"stories">,
-            words,
+            storyId: firstStory[0]._id,
+            words: "a",
           }))!;
           setTexts(chapter.texts);
           const imageUrls = await getImages({ images: chapter.images });
@@ -43,7 +45,7 @@ export default function Story() {
     };
 
     fetchChapter();
-  }, [generateAndStoreChapter, getImages]);
+  }, [firstStory, generateAndStoreChapter, getImages]);
 
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">

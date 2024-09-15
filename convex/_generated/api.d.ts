@@ -17,6 +17,7 @@ import type {
 } from "convex/server";
 import type * as chapter from "../chapter.js";
 import type * as chapterGeneration from "../chapterGeneration.js";
+import type * as story from "../story.js";
 import type * as types from "../types.js";
 
 /**
@@ -30,6 +31,7 @@ import type * as types from "../types.js";
 declare const fullApi: ApiFromModules<{
   chapter: typeof chapter;
   chapterGeneration: typeof chapterGeneration;
+  story: typeof story;
   types: typeof types;
 }>;
 export declare const api: FilterApi<
