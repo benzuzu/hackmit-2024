@@ -95,9 +95,6 @@ export default function TrendingPage() {
   return (
     <Wrapper onClose={handleClose}>
       <div className="p-6 space-y-8 max-w-3xl mx-auto">
-        <button className="border-4 text-xl bg-gray-400 p-8 rounded-lg" onClick={() => router.push("/story")}>View Story</button>
-        <button className="border-4 text-xl bg-gray-400 p-8 rounded-lg" onClick={() => router.push("/new")}>New Story</button>
-        {/* Title and SVG icons */}
         <div className="flex justify-between items-center">
           <h1 className="text-3xl font-bold text-gray-900 mb-6">Stories</h1>
           <div className="flex justify-between items-center gap-5">
