@@ -11,8 +11,8 @@ const apiKey = process.env.OPENAI_API_KEY;
 const openai = new OpenAI({ apiKey });
 
 export const generateTexts = action({
-  args: {},
-  handler: async () => {
+  args: { character1: v.string(), character2: v.string() },
+  handler: async (_, args) => {
     try {
       // Make a call to OpenAI API using the `createCompletion` method
       const response = await openai.chat.completions.create({
@@ -21,7 +21,10 @@ export const generateTexts = action({
           {
             role: "system",
             content:
-              "Write a story in 3 parts. Each part should be a string in the JSON with key 'part_x'.",
+              args.character1 +
+              args.character2 +
+              "Write the first chapter of a story with the above characters in 3 parts" +
+              "Each part should be a string in the JSON with key 'part_x'.",
           },
         ],
         response_format: {
@@ -44,26 +47,40 @@ export const generateTexts = action({
 });
 
 export const generateImages = action({
-  args: { texts: v.array(v.string()) },
+  args: {
+    character1: v.string(),
+    character2: v.string(),
+    texts: v.array(v.string()),
+  },
   handler: async (_, args) => {
-    const images: string[] = []; // Add type annotation for the images array
     try {
-      for (const text of args.texts) {
-        const response = await openai.images.generate({
-          model: "dall-e-3",
-          prompt: text,
-          n: 1,
-          size: "1024x1024",
-        });
+      const imagePromises = args.texts.map((text, index) => {
+        const context = args.texts.slice(0, index).join(" ");
 
-        if (response.data[0].url) {
-          images.push(response.data[0].url);
-          console.log(response.data[0].url);
-        } else {
-          console.log("Failed to generate image for text:", text);
-          throw new Error("Failed to generate image");
-        }
-      }
+        const prompt = context
+          ? `Context: ${args.character1} ${args.character2}. Now, draw the following paragraph: ${text}. Draw characters as humanly as possible, very realistic. Do NOT include text or words in the image.`
+          : text;
+
+        return openai.images
+          .generate({
+            model: "dall-e-3",
+            prompt: prompt,
+            n: 1,
+            size: "1024x1024",
+          })
+          .then((response) => {
+            if (response.data[0].url) {
+              console.log(response.data[0].url);
+              return response.data[0].url;
+            } else {
+              console.log("Failed to generate image for text:", text);
+              throw new Error("Failed to generate image");
+            }
+          });
+      });
+
+      const images = await Promise.all(imagePromises);
+
       return images;
     } catch (error) {
       console.error("Error calling OpenAI API:", error);

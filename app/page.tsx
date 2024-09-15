@@ -12,13 +12,26 @@ export default function Home() {
   const generateTexts = useAction(api.chapterGeneration.generateTexts);
   const generateImages = useAction(api.chapterGeneration.generateImages);
 
+  const character1 =
+    "A tall, muscular warrior named Aria with long, wavy silver hair and piercing blue eyes. She has a scar running down her right cheek, and her skin is a fair, almost pale tone. Aria wears a suit of medieval silver armor engraved with intricate runes, and a blue cape flowing behind her. She stands confidently with a hand resting on the hilt of her sword, her face set in a determined but calm expression. Her eyes gleam with intelligence and courage. Around her neck is a small silver pendant shaped like a hawk. Her boots are sturdy leather, worn from years of battle, and she carries a shield emblazoned with a dragon emblem.";
+
+  const character2 =
+    "Talon is a tall, lean man standing at 6'2\", with a wiry yet muscular build. His skin is a light tan, with a faint scar running across his left eyebrow. He has a sharp, angular face, framed by short, messy black hair swept back. His deep-set grey eyes are piercing and constantly scanning with a calculating, cold intensity. His nose is narrow and slightly crooked from an old break, and his lips are thin, giving him a stern expression. A jagged scar cuts across his jawline, adding to his dangerous appearance. Talon wears a black leather hooded cloak down to his knees, blending seamlessly with his dark, close-fitting armor made of matte black leather with silver accents. Across his chest are several small, silver throwing knives in an X-shape. He carries twin daggers with intricately carved obsidian hilts, and a pouch at his belt holds poison vials. His black, soft-soled boots are strapped tightly around his calves, and a single leather glove covers his left hand. He stands relaxed yet ready, with a slight smirk of confidence. The colors of his outfit are black and silver, with crimson accents on his daggers. Behind him are dark alleyways of a medieval city, cloaked in shadows, where he thrives as an assassin.";
+
   useEffect(() => {
     const fetchChapter = async () => {
       setLoading(true);
       try {
-        const result: string[] = await generateTexts(); // Assume result is an array of strings
-        const images: string[] = await generateImages({ texts: result }); // Assume result is an array of image URLs
-        setTexts(result);
+        const texts: string[] = await generateTexts({
+          character1,
+          character2,
+        });
+        const images: string[] = await generateImages({
+          character1,
+          character2,
+          texts,
+        });
+        setTexts(texts);
         setImages(images);
       } catch (error) {
         console.error("Error generating chapter:", error);
