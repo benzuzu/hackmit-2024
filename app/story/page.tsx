@@ -11,20 +11,30 @@ export default function Story() {
   const [loading, setLoading] = useState(true);
   const [texts, setTexts] = useState<string[]>([]); // Initialize texts as an array
   const [images, setImages] = useState<string[]>([]); // Initialize images as an array of URLs
-  const [chapterIndex, setChapterIndex] = useState<number>(0)
+  const [chapterIndex, setChapterIndex] = useState<number>(0);
 
-  const generateAndStoreChapter = useAction(api.chapterGeneration.generateAndStoreChapter);
+  const generateAndStoreChapter = useAction(
+    api.chapterGeneration.generateAndStoreChapter
+  );
   const getImages = useAction(api.chapter.getImages);
 
   useEffect(() => {
     const fetchChapter = async () => {
       setLoading(true);
       try {
-        const chapter: TChapter = (await generateAndStoreChapter({ storyId: "jd7bwcwma5tedap0ct1s6806zh70rwyq" as Id<"stories"> }))!;
-        setTexts(chapter.texts)
-        const imageUrls = await getImages({ images: chapter.images })
-        setImages(imageUrls)
-        setChapterIndex(Number(chapter.index))
+        const words = localStorage.getItem("words");
+        if (words) {
+          const chapter: TChapter = (await generateAndStoreChapter({
+            storyId: "j97752neevjp28tme8a1zs5z2570twc5" as Id<"stories">,
+            words,
+          }))!;
+          setTexts(chapter.texts);
+          const imageUrls = await getImages({ images: chapter.images });
+          setImages(imageUrls);
+          setChapterIndex(Number(chapter.index));
+        } else {
+          throw new Error("Words not found in local storage");
+        }
       } catch (error) {
         console.error("Error generating chapter:", error);
       } finally {
@@ -42,7 +52,11 @@ export default function Story() {
           <p>Loading...</p>
         ) : (
           <div className="flex flex-col gap-4">
-            <Chapter chapterNumber={chapterIndex} imageUrls={images} text={texts} />
+            <Chapter
+              chapterNumber={chapterIndex}
+              imageUrls={images}
+              text={texts}
+            />
           </div>
         )}
       </main>
