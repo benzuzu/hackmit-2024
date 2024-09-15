@@ -6,30 +6,36 @@ import { api } from "../../convex/_generated/api";
 import { Chapter } from "../components/chapters/chapter";
 import type { TChapter } from "@/convex/types";
 import { Id } from "@/convex/_generated/dataModel";
+import { useRouter } from "next/navigation";
 
 export default function Story() {
+  const router = useRouter();
+
   const [loading, setLoading] = useState(true);
   const [texts, setTexts] = useState<string[]>([]); // Initialize texts as an array
   const [images, setImages] = useState<string[]>([]); // Initialize images as an array of URLs
   const [chapterIndex, setChapterIndex] = useState<number>(0);
 
-  const generateAndStoreChapter = useAction(api.chapterGeneration.generateAndStoreChapter);
+  const generateAndStoreChapter = useAction(
+    api.chapterGeneration.generateAndStoreChapter
+  );
   const getImages = useAction(api.chapter.getImages);
   const firstStory = useQuery(api.story.getFirstStory);
 
+  // Create the function that can be called manually or during the initial render
+  
+
+  // Call the chapter generation function on initial render
   useEffect(() => {
-    const fetchChapter = async () => {
+    const generateNewChapter = async () => {
       setLoading(true);
-      if (firstStory == null) {
-        return
-      }
       try {
-        // const words = localStorage.getItem("words");
-        if (true) {
-          console.log(firstStory[0]._id)
+        const words = sessionStorage.getItem("words");
+        if (words) {
+          // Generate and fetch the chapter
           const chapter: TChapter = (await generateAndStoreChapter({
-            storyId: firstStory[0]._id,
-            words: "a",
+            storyId: "jd7bwcwma5tedap0ct1s6806zh70rwyq" as Id<"stories">,
+            words,
           }))!;
           setTexts(chapter.texts);
           const imageUrls = await getImages({ images: chapter.images });
@@ -44,9 +50,10 @@ export default function Story() {
         setLoading(false);
       }
     };
+    generateNewChapter()
 
-    // fetchChapter();
-  }, [firstStory, generateAndStoreChapter, getImages]);
+
+  }, [generateAndStoreChapter, getImages]); // Empty dependency array ensures it runs once on mount
 
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">

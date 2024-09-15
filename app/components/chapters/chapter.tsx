@@ -20,7 +20,7 @@ export function Chapter({
           storyTitle="The Yellow Wallpaper"
           author="Charlotte Perkins Gilman"
         />
-        
+
         {/* ChapterSlice Component */}
         <ChapterSlice
           chapterNumber={chapterNumber}

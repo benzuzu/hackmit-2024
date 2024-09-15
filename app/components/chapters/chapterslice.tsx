@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { ChapterEnd } from "./chapterend";
 import React from "react";
+import { useRouter } from "next/navigation";
 
 interface ChapterSliceProps {
   chapterNumber: number;
@@ -15,20 +16,19 @@ export function ChapterSlice({
   text,
   imageUrls,
 }: ChapterSliceProps) {
+  const router = useRouter();
   const [currentSlice, setCurrentSlice] = useState(0);
   const endChapter = currentSlice === text.length;
+
+  const handleSubmit = async (words: string[]) => {
+    await sessionStorage.setItem("words", JSON.stringify(words));
+    setCurrentSlice(0);
+  };
 
   return (
     <div className="container mx-auto px-4 py-8">
       {endChapter ? (
-        <>
-          <ChapterEnd
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            handleSubmit={function (words: string[]): void {
-              throw new Error("Function not implemented.");
-            }}
-          ></ChapterEnd>
-        </>
+        <ChapterEnd handleSubmit={handleSubmit} />
       ) : (
         <>
           {/* Chapter Title */}
