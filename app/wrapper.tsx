@@ -7,7 +7,7 @@ interface WrapperProps {
 
 export function Wrapper({ children, onClose }: WrapperProps) {
   return (
-    <div className="fixed top-0  right-10 left-20 mt-4 mr-4 w-full h-screen w-[calc(100%-20px)] bg-black text-black shadow-lg p-8 overflow-hidden z-20">
+    <div className="fixed inset-0 rounded-lg sm:ml-20 mr-4 mt-2 mb-2 p-8 overflow-hidden z-20">
       {/* Close button */}
       <button
         onClick={onClose}
@@ -30,7 +30,7 @@ export function Wrapper({ children, onClose }: WrapperProps) {
       </button>
 
       {/* Scrollable content inside */}
-      <div className="h-full overflow-y-auto mr-10">
+      <div className="h-full overflow-y-auto">
         {children}
       </div>
     </div>

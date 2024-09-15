@@ -26,20 +26,18 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="h-full">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased h-full m-0 p-0 layout-gradient`}>
+      <body>
         <ConvexClientProvider>
-        <div className="flex h-full main fixed">
+        <div className="flex h-full fixed main">
             <div className="mainDiv">
               {/* Sticky Sidebar */}
-              <div className="sticky top-0 h-screen z-20">
+              <div className="hidden sm:block sticky h-screen z-20">
                 <Sidebar />
               </div>
-            {/* Scrollable Main Content Area */}
-            <div className="flex-1 overflow-y-auto z-10">
-              <div className="flex justify-center items-start w-full m">
-                {children}
+              {/* Scrollable Main Content Area */}
+              <div className="flex-1 overflow-y-auto h-screen z-10">
+                  {children}
               </div>
-            </div>
             </div>
           </div>
         </ConvexClientProvider>
