@@ -57,7 +57,7 @@ export function CharacterForm() {
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Name */}
         <div>
-          <label htmlFor="name" className="block text-lg font-semibold mb-2">Character Name</label>
+          <label htmlFor="name" className="block text-lg font-semibold mb-2">Name</label>
           <input
             type="text"
             id="name"
@@ -335,7 +335,7 @@ export function CharacterForm() {
             type="submit"
             className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition ease-in-out duration-200"
           >
-            Submit Character
+            Create
           </button>
         </div>
       </form>
