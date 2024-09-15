@@ -12,9 +12,9 @@ export function ChapterBanner({
   return (
     <div className="w-full">
       {/* Text Section */}
-      <div className="text-white">
-        <h1 className="text-4xl font-bold text-gray-800 dark:text-gray-200">{storyTitle}</h1>
-        <p className="text-lg text-gray-800 dark:text-gray-200">by {author}</p>
+      <div className="text-black">
+        <h1 className="text-4xl font-bold text-gray-800">{storyTitle}</h1>
+        <p className="text-lg text-gray-800">by {author}</p>
       </div>
     </div>
   );
