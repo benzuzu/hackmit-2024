@@ -10,7 +10,7 @@ export function ChapterBanner({
   author,
 }: ChapterBannerProps) {
   return (
-    <div className="w-full h-40 flex items-center">
+    <div className="w-full">
       {/* Text Section */}
       <div className="text-white">
         <h1 className="text-4xl font-bold text-gray-800 dark:text-gray-200">{storyTitle}</h1>
