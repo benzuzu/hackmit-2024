@@ -1,4 +1,4 @@
-import { action, internalMutation } from "./_generated/server";
+import { action, internalMutation, query } from "./_generated/server";
 import { internal } from "./_generated/api";
 import { v } from "convex/values";
 import { Id, Doc } from "./_generated/dataModel";
@@ -12,7 +12,7 @@ export const storeGeneratedChapter = action({
     handler: async (ctx, args) => {
         const { storyId, generatedText, generatedImageUrls } = args;
 
-        const story: Doc<"stories"> = (await ctx.runMutation(internal.stories.getStory, {storyId}))!;
+        const story: Doc<"stories"> = (await ctx.runMutation(internal.chapters.getStory, {storyId}))!;
         const newChapterIndex = story.currentChapterIndex + 1n;
         const images: Id<"_storage">[] = []
         for (const url of generatedImageUrls) {
@@ -22,16 +22,14 @@ export const storeGeneratedChapter = action({
             images.push(storageId)
         };
 
-        const chapterId: Id<"chapters"> = (await ctx.runMutation(internal.stories.storeChapter, {
+        const chapterId: Id<"chapters"> = (await ctx.runMutation(internal.chapters.storeChapter, {
             storyId,
             index: newChapterIndex,
             texts: generatedText,
             images
         }))!;
 
-        console.log(chapterId)
-
-        await ctx.runMutation(internal.stories.updateStoryWithChapter, {storyId, chapterId, newChapterIndex, storyChapters: story.chapters})
+        await ctx.runMutation(internal.chapters.updateStoryWithChapter, {storyId, chapterId, newChapterIndex, storyChapters: story.chapters})
 
         return chapterId;
     },
@@ -82,3 +80,12 @@ export const updateStoryWithChapter = internalMutation({
         await ctx.db.patch(storyId, { currentChapterIndex: newChapterIndex, chapters: updatedChapters})
     }
 })
+
+export const get = query({
+  args: {},
+  handler: async (ctx) => {
+    const chapter = await ctx.db.query("chapters").take(1);
+    const url = await ctx.storage.getUrl(chapter[0].images[0])
+    return url
+  },
+});
