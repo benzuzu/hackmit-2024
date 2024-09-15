@@ -14,7 +14,7 @@ export function ChapterBanner({
       {/* Text Section */}
       <div className="text-white">
         <h1 className="text-4xl font-bold text-gray-800 dark:text-gray-200">{storyTitle}</h1>
-        <p className="text-lg">by {author}</p>
+        <p className="text-lg text-gray-800 dark:text-gray-200">by {author}</p>
       </div>
     </div>
   );

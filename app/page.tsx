@@ -3,7 +3,7 @@
 import { useAction } from "convex/react";
 import { api } from "../convex/_generated/api";
 import Image from "next/image";
-import { Chapter } from "./chapters/Chapter";
+import { Chapter } from "./chapters/chapter";
 
 export default function Home() {
   // const generateStory = useAction(api.story.generate);
