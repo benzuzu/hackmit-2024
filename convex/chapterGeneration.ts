@@ -13,7 +13,11 @@ const apiKey = process.env.OPENAI_API_KEY;
 const openai = new OpenAI({ apiKey });
 
 export const generateAndStoreChapter = action({
-  args: { storyId: v.id("stories"), words: v.string(), initial: v.optional(v.boolean()) },
+  args: {
+    storyId: v.id("stories"),
+    words: v.string(),
+    initial: v.optional(v.boolean()),
+  },
   handler: async (ctx, { storyId, words, initial }) => {
     const character1 =
       "Jordan is a 17-year-old high school student with short, slightly messy brown hair and warm hazel eyes that convey a sense of curiosity and youthful energy. He stands at 5'9\", with a lean build and a casual, laid-back posture. He's wearing a navy blue hoodie over a graphic t-shirt, faded jeans, and well-worn sneakers. A backpack hangs over one shoulder, and white earbuds dangle loosely around his neck. His expression is thoughtful, with a slight, confident smile. He has a few freckles scattered across his face and a pair of black-rimmed glasses resting on his nose.";
@@ -29,13 +33,15 @@ export const generateAndStoreChapter = action({
       internal.chapterGeneration.generateImages,
       { character1, character2, texts }
     );
-  
+
     const newInitial = initial ?? false;
 
-    await ctx.runAction(
-      internal.chapter.storeGeneratedChapter,
-      { storyId, generatedText: texts, generatedImageUrls: images, initial: newInitial }
-    );
+    await ctx.runAction(internal.chapter.storeGeneratedChapter, {
+      storyId,
+      generatedText: texts,
+      generatedImageUrls: images,
+      initial: newInitial,
+    });
   },
 });
 
@@ -86,7 +92,7 @@ export const generateImages = internalAction({
   handler: async (_, args) => {
     try {
       const imagePromises = args.texts.map((text) => {
-        const prompt = `Context: ${args.character1} ${args.character2}. Now, draw the following paragraph. Use a cartoonish style similar to Une64e2g1l7URd6 : ${text}.`;
+        const prompt = `Context: ${args.character1} ${args.character2}. Now, draw the following paragraph. Draw the characters as humanly and realistic as possible : ${text}.`;
 
         return openai.images
           .generate({
