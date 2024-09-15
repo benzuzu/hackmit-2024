@@ -1,3 +1,5 @@
+"use client"
+
 import { useEffect, useState } from 'react';
 
 // Define a type for the fade-in state
