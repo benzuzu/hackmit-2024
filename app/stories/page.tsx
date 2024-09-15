@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { api } from "@/convex/_generated/api";
 import { useQuery } from "convex/react";
@@ -11,7 +11,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { Id } from "@/convex/_generated/dataModel";
 
-
 const articleImages = [
   "/assets/stories/business.png",
   "/assets/stories/newspaper.png",
@@ -20,7 +19,7 @@ const articleImages = [
   "/assets/stories/narcissist.png",
   "/assets/stories/cry.png",
   "/assets/stories/tech.png",
-]
+];
 
 export default function TrendingPage() {
   const router = useRouter();
@@ -48,13 +47,15 @@ export default function TrendingPage() {
       currentChapter: chapterIndex,
     }));
 
-    setTimeout(() => {router.push("stories/" + id)}, 300);
-  }
+    setTimeout(() => {
+      router.push("stories/" + id);
+    }, 300);
+  };
 
   return (
     <div>
       {loading ? (
-        <p>Loading...</p>
+        <p> </p>
       ) : (
         <Wrapper onClose={handleClose}>
           <div className="p-6 space-y-8 max-w-3xl mx-auto">
@@ -101,10 +102,22 @@ export default function TrendingPage() {
               return (
                 <div
                   key={index}
-                  onClick={() => handleClick(article._id, Number(article.currentChapterIndex))}
+                  onClick={() =>
+                    handleClick(
+                      article._id,
+                      Number(article.currentChapterIndex)
+                    )
+                  }
                   className="block w-full hover:bg-opacity-30 hover:bg-gray-200 transition duration-200"
                 >
-                  <a onClick={() => handleClick(article._id, Number(article.currentChapterIndex))}>
+                  <a
+                    onClick={() =>
+                      handleClick(
+                        article._id,
+                        Number(article.currentChapterIndex)
+                      )
+                    }
+                  >
                     <div className="border-b border-black pb-4 p-4 flex space-x-6">
                       <div className="flex-shrink-0">
                         <Image
