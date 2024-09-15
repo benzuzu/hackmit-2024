@@ -11,7 +11,7 @@ import { TLoadedChapter } from "@/convex/types";
 import { Id } from "@/convex/_generated/dataModel";
 
 export default function StoryPage() {
-  const slug = useParams<{ tag: string; item: string }>()
+  const slug = useParams<{ tag: string; item: string }>();
   const router = useRouter();
 
   const { sharedState } = useStateContext();
@@ -77,7 +77,7 @@ export default function StoryPage() {
     <Wrapper onClose={handleClose}>
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
         {loading ? (
-          <p>Loading...</p>
+          <p> </p>
         ) : (
           <div className="flex flex-col gap-4">
             <div className="flex flex-row justify-between w-full">
