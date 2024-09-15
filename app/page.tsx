@@ -4,7 +4,12 @@ import { useAction } from "convex/react";
 import { api } from "../convex/_generated/api";
 import { useEffect, useState } from "react";
 import { Chapter } from "./chapters/chapter";
-import TrendingPage from "./home/home";
+import StoriesPage from "./stories/stories";
+import LandingPage from "./landing/LandingPage";
+import LandingPage2 from "./landing/LandingPage2";
+import Vara from 'vara'
+import { VaraText } from "./handwriting";
+
 
 export default function Home() {
   const [loading, setLoading] = useState(true);
@@ -48,7 +53,7 @@ export default function Home() {
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen font-[family-name:var(--font-geist-sans)]">
       <main className="flex flex-col gap-8 row-start-2 items-center">
-        {loading ? (
+        {/* {loading ? (
           <p>Loading...</p>
         ) : (
           <>
@@ -60,7 +65,10 @@ export default function Home() {
               />
             </div>
           </>
-        )}
+        )} */}
+        <div>
+          <VaraText text='Fable' />
+        </div>
       </main>
 
       <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center"></footer>
